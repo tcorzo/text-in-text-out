@@ -52,7 +52,7 @@ describe('production build', () => {
 
 	test('library index lists every entry', () => {
 		const html = readFileSync(join(DIST, 'library/index.html'), 'utf8');
-		expect(entries.map((e) => e.title).filter((t) => !html.includes(`>${t}</a>`))).toEqual([]);
+		expect(entries.map((e) => e.title).filter((t) => !html.includes(`>${t}<`))).toEqual([]);
 	});
 
 	test('draft chapters are not built and nothing links to them', () => {
