@@ -10,6 +10,7 @@
         "astro-mermaid": "^2.2.0",
         "mermaid": "^12.2.0",
         "sharp": "^0.35.3",
+        "starlight-theme-rapide": "^0.6.0",
       },
     },
   },
@@ -835,6 +836,8 @@
     "source-map-js": ["source-map-js@1.2.2", "", {}, "sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw=="],
 
     "space-separated-tokens": ["space-separated-tokens@2.0.2", "", {}, "sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q=="],
+
+    "starlight-theme-rapide": ["starlight-theme-rapide@0.6.0", "", { "peerDependencies": { "@astrojs/starlight": ">=0.42.0" } }, "sha512-pKfOQh7duWFYXed6RNv75zoRs32b8aeWMu14xlRd35UWeGtgZholOABXM3B0ZRan9uQzjwTxqehmrZv6oskBog=="],
 
     "std-env": ["std-env@4.3.0", "", {}, "sha512-OtU/EgQ1kIm5KwqQpBC6ZEMXrZRui11w8zgfTWp8cdO9B8OaPsbA8bTHO2P+HNo1VlUTGMVBwPhydu6poeXiag=="],
 

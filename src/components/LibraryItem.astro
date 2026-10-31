@@ -39,7 +39,7 @@ const date = data.published?.toISOString().slice(0, 10);
 		data.tags.length > 0 && (
 			<p class="tags">
 				{data.tags.map((t) => (
-					<a href={withBase(base, `/library/tags/${t}/`)}>#{t}</a>
+					<a href={withBase(base, `/library/tags/${t}/`)}>{t}</a>
 				))}
 			</p>
 		)
@@ -61,14 +61,24 @@ const date = data.published?.toISOString().slice(0, 10);
 
 <style>
 	.library-item {
-		margin-block: 1.5rem;
+		padding-block: 1.25rem;
+		border-bottom: 1px solid var(--sl-color-hairline);
 	}
 	.library-item > * + * {
-		margin-top: 0.35rem;
+		margin-top: 0.4rem;
+	}
+	.title {
+		font-size: var(--sl-text-h4);
+	}
+	.title a {
+		text-decoration: none;
+		color: var(--sl-color-white);
+	}
+	.title a:hover {
+		color: var(--sl-color-text-accent);
 	}
 	.meta,
 	.links,
-	.tags,
 	.cited {
 		font-size: var(--sl-text-sm);
 		color: var(--sl-color-gray-3);
@@ -78,14 +88,36 @@ const date = data.published?.toISOString().slice(0, 10);
 		content: '·';
 		margin-inline: 0.4em;
 	}
+	.type {
+		text-transform: capitalize;
+	}
 	.links,
 	.tags {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.25rem 0.75rem;
+		gap: 0.35rem 1rem;
 	}
-	.type {
-		text-transform: capitalize;
+	.links a,
+	.cited a {
+		color: var(--sl-color-text-accent);
+		text-decoration: none;
+	}
+	.links a::after {
+		content: ' ↗';
+	}
+	.tags {
+		gap: 0.35rem;
+	}
+	.tags a {
+		font-size: var(--sl-text-xs);
+		text-decoration: none;
+		color: var(--sl-color-gray-2);
+		background: var(--sl-color-gray-6);
+		border-radius: 999px;
+		padding: 0.1rem 0.6rem;
+	}
+	.tags a:hover {
+		color: var(--sl-color-text-accent);
 	}
 	.note {
 		border-inline-start: 3px solid var(--sl-color-accent);

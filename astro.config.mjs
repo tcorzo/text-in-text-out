@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import mermaid from 'astro-mermaid';
+import starlightThemeRapide from 'starlight-theme-rapide';
 
 // Site address. Change both lines together if the site moves
 // (e.g. to a custom domain: set `site` to it and `base` to '/').
@@ -16,6 +17,7 @@ export default defineConfig({
 		mermaid({ autoTheme: true }),
 		starlight({
 			title: 'AI Resources',
+			plugins: [starlightThemeRapide()],
 			routeMiddleware: './src/routeData.ts',
 			components: { MarkdownContent: './src/components/MarkdownContent.astro' },
 			sidebar: [
