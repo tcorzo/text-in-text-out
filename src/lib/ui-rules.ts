@@ -12,6 +12,9 @@ const REPLACEMENTS: Array<{ pattern: RegExp; use: string }> = [
 	{ pattern: /class="[^"]*\b(card|button|btn)\b[^"]*"/, use: '<Card>/<LinkCard>/<LinkButton> from @astrojs/starlight/components' },
 	{ pattern: /<ol[^>]*class="[^"]*steps/, use: '<Steps> from @astrojs/starlight/components' },
 	{ pattern: /[←→]\s*\w+<\/a>/, use: '<LinkButton icon="left-arrow"|"right-arrow"> from @astrojs/starlight/components' },
+	// Chapter references: named in prose, or linked by hand with a path that breaks on renames and drafts.
+	{ pattern: /\bchapter (?:on|about)\b/i, use: '<ChapterLink id="part-N-…/chapter" /> from ~/components/ChapterLink.astro' },
+	{ pattern: /\]\((?:\.\.?\/|\/(?:ai-resources\/)?part-)/, use: '<ChapterLink id="part-N-…/chapter" /> from ~/components/ChapterLink.astro' },
 ];
 
 /**

@@ -92,3 +92,18 @@ export const TYPE_ICONS: Record<string, string> = {
 	newsletter: 'email',
 	inspiration: 'star',
 };
+
+/**
+ * Where an in-text chapter link points. Published chapters link by their own title.
+ * Draft chapters render as plain text in production (they aren't built), and as links in dev.
+ * An unknown id throws, so a renamed or mistyped chapter fails the build.
+ */
+export function resolveChapterLink(
+	id: string,
+	chapter: { data: { title: string; draft?: boolean } } | undefined,
+	env: { prod: boolean; base: string },
+): { title: string; href: string | null } {
+	if (!chapter) throw new Error(`ChapterLink: no chapter with id "${id}" in src/content/docs/`);
+	const hidden = env.prod && chapter.data.draft === true;
+	return { title: chapter.data.title, href: hidden ? null : withBase(env.base, `/${id}/`) };
+}

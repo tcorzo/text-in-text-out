@@ -15,6 +15,12 @@ A book about AI agents (models → agent loop → harnesses → evals), plus a l
 - The site lives under `/ai-resources/`. In components, build internal links with `withBase(import.meta.env.BASE_URL, path)`. In frontmatter fields Starlight doesn't prefix (hero actions), use relative links.
 - Diagrams are Mermaid fenced code blocks (`astro-mermaid`). Code examples are illustrative and never run.
 
+## Writing chapters
+
+The book builds vocabulary one term at a time. A chapter introduces a term with an image or comparison once ("a model is a black box"), and from then on uses only the term ("the model"), never the image. Later chapters reuse the terms earlier chapters defined.
+
+To point at another chapter, use `<ChapterLink id="part-1-primitives/tokens-and-context" />` (`import ChapterLink from '~/components/ChapterLink.astro';`). It shows the chapter's own title, renders as plain text while that chapter is a draft, and fails the build if the id doesn't exist.
+
 ## UI
 
 Build UI from Starlight's built-in components first (https://starlight.astro.build/components/using-components/): `Card`, `CardGrid`, `LinkCard`, `LinkButton`, `Badge`, `Aside`, `Tabs`, `Steps`, `FileTree`, `Icon`. If none fits, look for a Starlight plugin (https://starlight.astro.build/resources/plugins/). Write your own HTML/CSS only after both come up empty.
@@ -24,6 +30,8 @@ Build UI from Starlight's built-in components first (https://starlight.astro.bui
 | Rule | Enforced by |
 |---|---|
 | Starlight components, then plugins, then hand-rolled HTML | `src/ui-rules.test.ts` (`bun test src`, also in CI) flags raw markup that has a Starlight equivalent, plus any `<style>` without a `ui-exception` comment (reason and expiry date) or with an expired one |
+| Refer to other chapters with `<ChapterLink>`, never by name in prose or with a hand-written link | `src/ui-rules.test.ts` flags "chapter on/about" and relative or `part-` Markdown links. `resolveChapterLink` fails the build on an unknown id |
+| Introduce a term with its image once, then use only the term | Review only. A judgment call that no check can make |
 | Library references point at real chapters and entries | `loadLibrary()` in `src/lib/data.ts` fails the build |
 | Tags are kebab-case | Zod schema in `src/content.config.ts` |
 | Internal links carry the `/ai-resources` base | `tests/dist.test.ts` (`bun run test:dist`, also in CI) |

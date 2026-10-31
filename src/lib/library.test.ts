@@ -5,6 +5,7 @@ import {
 	groupByType,
 	itemsForChapter,
 	pruneEmptyGroups,
+	resolveChapterLink,
 	publishedChapters,
 	withBase,
 	type Item,
@@ -93,5 +94,25 @@ describe('pruneEmptyGroups', () => {
 			link,
 		]);
 		expect(pruned.map((e) => e.label)).toEqual(['Full', 'L']);
+	});
+});
+
+describe('resolveChapterLink', () => {
+	const chapter = (draft: boolean) => ({ data: { title: 'Tokens and the context window', draft } });
+	const id = 'part-1-primitives/tokens-and-context';
+	test('links a published chapter by its title, under the base', () => {
+		expect(resolveChapterLink(id, chapter(false), { prod: true, base: '/ai-resources' })).toEqual({
+			title: 'Tokens and the context window',
+			href: '/ai-resources/part-1-primitives/tokens-and-context/',
+		});
+	});
+	test('a draft chapter is plain text in production and a link in dev', () => {
+		expect(resolveChapterLink(id, chapter(true), { prod: true, base: '/ai-resources' }).href).toBeNull();
+		expect(resolveChapterLink(id, chapter(true), { prod: false, base: '/ai-resources' }).href).toBe(
+			'/ai-resources/part-1-primitives/tokens-and-context/',
+		);
+	});
+	test('an unknown chapter fails the build with its id', () => {
+		expect(() => resolveChapterLink('part-9/nope', undefined, { prod: true, base: '/' })).toThrow('part-9/nope');
 	});
 });

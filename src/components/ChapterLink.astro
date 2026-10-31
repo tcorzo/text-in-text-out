@@ -1,0 +1,18 @@
+---
+// In-text link to another chapter: <ChapterLink id="part-1-primitives/tokens-and-context" />
+// Shows the chapter's own title. Plain text while the chapter is a draft. Unknown ids fail the build.
+import { getEntry } from 'astro:content';
+import { resolveChapterLink } from '../lib/library';
+
+interface Props {
+	id: string;
+}
+
+const { id } = Astro.props;
+const { title, href } = resolveChapterLink(id, await getEntry('docs', id), {
+	prod: import.meta.env.PROD,
+	base: import.meta.env.BASE_URL,
+});
+---
+
+{href ? <a href={href}>{title}</a> : title}

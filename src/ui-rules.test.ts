@@ -38,6 +38,16 @@ describe('UI rule: Starlight components before plugins before hand-rolled HTML',
 		expect(errors[0]).toContain('<LinkButton');
 	});
 
+	// The real line from what-is-a-model.mdx before <ChapterLink> existed.
+	test('flags a chapter named in plain text or linked by hand', () => {
+		const past = 'and `usage` counts every message again on every call. The chapter on tokens and the context window covers how long a conversation can get.';
+		const handLink = 'See [Tokens](../tokens-and-context/) and [Evals](/ai-resources/part-3-building-and-judging/evals/).';
+		const ok = '<ChapterLink id="part-1-primitives/tokens-and-context" /> covers it.';
+		expect(checkUi([{ path: 'a.mdx', content: past }], TODAY).errors[0]).toContain('<ChapterLink');
+		expect(checkUi([{ path: 'b.mdx', content: handLink }], TODAY).errors).toHaveLength(1);
+		expect(checkUi([{ path: 'c.mdx', content: ok }], TODAY).errors).toEqual([]);
+	});
+
 	test('accepts a <style> with a live exception; rejects an expired one', () => {
 		const ok = '<style>\n\t/* ui-exception: layout gap; expires: 2999-01-01 */\n</style>';
 		const old = '<style>\n\t/* ui-exception: layout gap; expires: 2000-01-01 */\n</style>';
