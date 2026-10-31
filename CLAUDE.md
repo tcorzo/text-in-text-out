@@ -15,6 +15,20 @@ A book about AI agents (models → agent loop → harnesses → evals), plus a l
 - The site lives under `/ai-resources/`. In components, build internal links with `withBase(import.meta.env.BASE_URL, path)`. In frontmatter fields Starlight doesn't prefix (hero actions), use relative links.
 - Diagrams are Mermaid fenced code blocks (`astro-mermaid`). Code examples are illustrative and never run.
 
+## UI
+
+Build UI from Starlight's built-in components first (https://starlight.astro.build/components/using-components/): `Card`, `CardGrid`, `LinkCard`, `LinkButton`, `Badge`, `Aside`, `Tabs`, `Steps`, `FileTree`, `Icon`. If none fits, look for a Starlight plugin (https://starlight.astro.build/resources/plugins/). Write your own HTML/CSS only after both come up empty.
+
+## Rules and what enforces them
+
+| Rule | Enforced by |
+|---|---|
+| Starlight components, then plugins, then hand-rolled HTML | `src/ui-rules.test.ts` (`bun test src`, also in CI) flags raw markup that has a Starlight equivalent, plus any `<style>` without a `ui-exception` comment (reason, expiry, approver) |
+| Library references point at real chapters and entries | `loadLibrary()` in `src/lib/data.ts` fails the build |
+| Tags are kebab-case | Zod schema in `src/content.config.ts` |
+| Internal links carry the `/ai-resources` base | `tests/dist.test.ts` (`bun run test:dist`, also in CI) |
+| Draft chapters stay off the public site | `tests/dist.test.ts` |
+
 ## Checks
 
 `bun test src` runs the unit tests. `bun run test:dist` builds the site and checks the output.
