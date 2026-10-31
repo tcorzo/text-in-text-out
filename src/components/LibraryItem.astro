@@ -1,127 +1,87 @@
 ---
+// One library entry as a Starlight Card.
 import type { CollectionEntry } from 'astro:content';
-import { publishedChapters, withBase } from '../lib/library';
+import { Badge, Card, LinkButton } from '@astrojs/starlight/components';
+import { publishedChapters, TYPE_ICONS, withBase } from '../lib/library';
 
 interface Props {
 	item: CollectionEntry<'library'>;
 	published: Set<string>;
 	titles: Map<string, string>;
-	headingLevel?: 'h3' | 'h4';
 }
 
-const { item, published, titles, headingLevel = 'h3' } = Astro.props;
+const { item, published, titles } = Astro.props;
 const { data } = item;
-const Heading = headingLevel;
 const base = import.meta.env.BASE_URL;
 const cited = publishedChapters(data.chapters, published);
 const date = data.published?.toISOString().slice(0, 10);
 ---
 
-<article class="library-item" id={item.id}>
-	<Heading class="title"><a href={data.url}>{data.title}</a></Heading>
-	<p class="meta">
-		<span>{data.creator}</span>
-		<span class="type">{data.type}</span>
-		{date && <time datetime={date}>{date}</time>}
-	</p>
-	<p class="summary">{data.summary}</p>
-	{data.note && <blockquote class="note">{data.note}</blockquote>}
-	{
-		data.links.length > 0 && (
-			<p class="links">
-				{data.links.map((l) => (
-					<a href={l.url}>{l.label}</a>
-				))}
-			</p>
-		)
-	}
-	{
-		data.tags.length > 0 && (
-			<p class="tags">
-				{data.tags.map((t) => (
-					<a href={withBase(base, `/library/tags/${t}/`)}>{t}</a>
-				))}
-			</p>
-		)
-	}
-	{
-		cited.length > 0 && (
-			<p class="cited">
-				Cited in:{' '}
-				{cited.map((c, i) => (
-					<>
-						{i > 0 && ', '}
-						<a href={withBase(base, `/${c.id}/`)}>{titles.get(c.id) ?? c.id}</a>
-					</>
-				))}
-			</p>
-		)
-	}
-</article>
+<div class="library-item" id={`item-${item.id}`}>
+	<Card title={data.title} icon={TYPE_ICONS[data.type] as any}>
+		<p class="meta">
+			{data.creator}{date && <> · <time datetime={date}>{date}</time></>}
+		</p>
+		<p>{data.summary}</p>
+		{data.note && <blockquote>{data.note}</blockquote>}
+		{
+			data.tags.length > 0 && (
+				<p class="tags">
+					{data.tags.map((t) => (
+						<a href={withBase(base, `/library/tags/${t}/`)}>
+							<Badge text={t} size="small" />
+						</a>
+					))}
+				</p>
+			)
+		}
+		{
+			cited.length > 0 && (
+				<p class="meta">
+					Cited in{' '}
+					{cited.map((c, i) => (
+						<>
+							{i > 0 && ', '}
+							<a href={withBase(base, `/${c.id}/`)}>{titles.get(c.id) ?? c.id}</a>
+						</>
+					))}
+				</p>
+			)
+		}
+		<div class="actions">
+			<LinkButton href={data.url} variant="secondary" icon="external">Open</LinkButton>
+			{
+				data.links.map((l) => (
+					<LinkButton href={l.url} variant="minimal" icon="external">
+						{l.label}
+					</LinkButton>
+				))
+			}
+		</div>
+	</Card>
+</div>
 
 <style>
 	.library-item {
-		padding-block: 1.25rem;
-		border-bottom: 1px solid var(--sl-color-hairline);
+		display: grid;
 	}
-	.library-item > * + * {
-		margin-top: 0.4rem;
-	}
-	.title {
-		font-size: var(--sl-text-h4);
-	}
-	.title a {
-		text-decoration: none;
-		color: var(--sl-color-white);
-	}
-	.title a:hover {
-		color: var(--sl-color-text-accent);
-	}
-	.meta,
-	.links,
-	.cited {
+	.meta {
 		font-size: var(--sl-text-sm);
 		color: var(--sl-color-gray-3);
 	}
-	.meta span + span::before,
-	.meta time::before {
-		content: '·';
-		margin-inline: 0.4em;
-	}
-	.type {
-		text-transform: capitalize;
-	}
-	.links,
 	.tags {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.35rem 1rem;
-	}
-	.links a,
-	.cited a {
-		color: var(--sl-color-text-accent);
-		text-decoration: none;
-	}
-	.links a::after {
-		content: ' ↗';
-	}
-	.tags {
 		gap: 0.35rem;
 	}
 	.tags a {
-		font-size: var(--sl-text-xs);
 		text-decoration: none;
-		color: var(--sl-color-gray-2);
-		background: var(--sl-color-gray-6);
-		border-radius: 999px;
-		padding: 0.1rem 0.6rem;
 	}
-	.tags a:hover {
-		color: var(--sl-color-text-accent);
-	}
-	.note {
-		border-inline-start: 3px solid var(--sl-color-accent);
-		padding-inline-start: 0.75rem;
-		font-style: italic;
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.25rem 1rem;
+		margin-top: 0.75rem;
 	}
 </style>

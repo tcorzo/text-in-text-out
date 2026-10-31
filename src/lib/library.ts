@@ -79,3 +79,16 @@ export function pruneEmptyGroups<T extends SidebarLike>(entries: T[]): T[] {
 		return inner.length > 0 ? [{ ...e, entries: inner }] : [];
 	});
 }
+
+/** Starlight built-in icon per library type. */
+export const TYPE_ICONS: Record<string, string> = {
+	article: 'document',
+	talk: 'comment-alt',
+	interview: 'comment',
+	paper: 'open-book',
+	model: 'puzzle',
+	tool: 'setting',
+	repo: 'github',
+	newsletter: 'email',
+	inspiration: 'star',
+};

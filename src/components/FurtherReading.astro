@@ -1,6 +1,6 @@
 ---
-// Library items that list this chapter. Renders nothing when there are none.
-import LibraryItem from './LibraryItem.astro';
+// Library entries that cite this chapter, as Starlight LinkCards. Renders nothing when there are none.
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 import { loadLibrary } from '../lib/data';
 import { itemsForChapter } from '../lib/library';
 
@@ -8,17 +8,19 @@ interface Props {
 	chapterId: string;
 }
 
-const { items, published, titles } = await loadLibrary();
+const { items } = await loadLibrary();
 const cited = itemsForChapter(items, Astro.props.chapterId);
 ---
 
 {
 	cited.length > 0 && (
-		<section class="further-reading">
+		<section>
 			<h2 id="further-reading">Further reading</h2>
-			{cited.map((item) => (
-				<LibraryItem item={item} published={published} titles={titles} />
-			))}
+			<CardGrid>
+				{cited.map((item) => (
+					<LinkCard title={item.data.title} description={item.data.summary} href={item.data.url} />
+				))}
+			</CardGrid>
 		</section>
 	)
 }
