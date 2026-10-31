@@ -23,7 +23,7 @@ Build UI from Starlight's built-in components first (https://starlight.astro.bui
 
 | Rule | Enforced by |
 |---|---|
-| Starlight components, then plugins, then hand-rolled HTML | `src/ui-rules.test.ts` (`bun test src`, also in CI) flags raw markup that has a Starlight equivalent, plus any `<style>` without a `ui-exception` comment (reason, expiry, approver) |
+| Starlight components, then plugins, then hand-rolled HTML | `src/ui-rules.test.ts` (`bun test src`, also in CI) flags raw markup that has a Starlight equivalent, plus any `<style>` without a `ui-exception` comment (reason and expiry date) or with an expired one |
 | Library references point at real chapters and entries | `loadLibrary()` in `src/lib/data.ts` fails the build |
 | Tags are kebab-case | Zod schema in `src/content.config.ts` |
 | Internal links carry the `/ai-resources` base | `tests/dist.test.ts` (`bun run test:dist`, also in CI) |

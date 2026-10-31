@@ -12,9 +12,7 @@ describe('UI rule: Starlight components before plugins before hand-rolled HTML',
 		for await (const path of new Glob('src/**/*.{astro,mdx}').scan(ROOT)) {
 			files.push({ path, content: await Bun.file(join(ROOT, path)).text() });
 		}
-		const { errors, pending } = checkUi(files, TODAY);
-		if (pending.length) console.warn(`ui-exceptions awaiting approval:\n  ${pending.join('\n  ')}`);
-		expect(errors).toEqual([]);
+		expect(checkUi(files, TODAY).errors).toEqual([]);
 	});
 
 	// The real first version of src/components/LibraryItem.astro (commit aceeff5), trimmed.
@@ -41,8 +39,8 @@ describe('UI rule: Starlight components before plugins before hand-rolled HTML',
 	});
 
 	test('accepts a <style> with a live exception; rejects an expired one', () => {
-		const ok = '<style>\n\t/* ui-exception: layout gap; expires: 2999-01-01; approved-by: someone */\n</style>';
-		const old = '<style>\n\t/* ui-exception: layout gap; expires: 2000-01-01; approved-by: someone */\n</style>';
+		const ok = '<style>\n\t/* ui-exception: layout gap; expires: 2999-01-01 */\n</style>';
+		const old = '<style>\n\t/* ui-exception: layout gap; expires: 2000-01-01 */\n</style>';
 		expect(checkUi([{ path: 'a.astro', content: ok }], TODAY).errors).toEqual([]);
 		expect(checkUi([{ path: 'b.astro', content: old }], TODAY).errors[0]).toContain('expired');
 	});

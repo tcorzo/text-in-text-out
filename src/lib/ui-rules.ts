@@ -16,13 +16,12 @@ const REPLACEMENTS: Array<{ pattern: RegExp; use: string }> = [
 
 /**
  * A <style> block is hand-rolled CSS. It is allowed only with an exception comment on the
- * line right after it: `/* ui-exception: <reason>; expires: YYYY-MM-DD; approved-by: <name> *\/`
+ * line right after it: `/* ui-exception: <reason>; expires: YYYY-MM-DD *\/`
  */
-const EXCEPTION = /ui-exception:\s*(?<reason>[^;]+);\s*expires:\s*(?<expires>\d{4}-\d{2}-\d{2});\s*approved-by:\s*(?<by>[^*;]+)/;
+const EXCEPTION = /ui-exception:\s*(?<reason>[^;]+);\s*expires:\s*(?<expires>\d{4}-\d{2}-\d{2})/;
 
-export function checkUi(files: SourceFile[], today: string): { errors: string[]; pending: string[] } {
+export function checkUi(files: SourceFile[], today: string): { errors: string[] } {
 	const errors: string[] = [];
-	const pending: string[] = [];
 	for (const { path, content } of files) {
 		const lines = content.split('\n');
 		lines.forEach((line, i) => {
@@ -35,15 +34,13 @@ export function checkUi(files: SourceFile[], today: string): { errors: string[];
 				if (!m?.groups) {
 					errors.push(
 						`${at}: hand-rolled <style> — prefer Starlight components or a Starlight plugin; ` +
-							'if neither fits, add `/* ui-exception: <reason>; expires: YYYY-MM-DD; approved-by: <name> */` on the next line',
+							'if neither fits, add `/* ui-exception: <reason>; expires: YYYY-MM-DD */` on the next line',
 					);
 				} else if (m.groups.expires < today) {
 					errors.push(`${at}: ui-exception expired on ${m.groups.expires} — revisit: ${m.groups.reason.trim()}`);
-				} else if (m.groups.by.trim() === 'pending') {
-					pending.push(`${at}: ${m.groups.reason.trim()}`);
 				}
 			}
 		});
 	}
-	return { errors, pending };
+	return { errors };
 }
