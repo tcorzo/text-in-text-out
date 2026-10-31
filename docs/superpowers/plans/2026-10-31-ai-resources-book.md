@@ -198,17 +198,32 @@ Then run `bun dev`, open `/ai-resources/part-3-building-and-judging/evals/` and 
 
 - [ ] **Step 4: Commit** (`feat: further reading on chapters`).
 
-### Task 5: CLAUDE.md, deploy workflow, README
+### Task 5: `add-library-entry` skill, CLAUDE.md, deploy workflow, README
 
 **Files:**
+- Create: `.claude/skills/add-library-entry/SKILL.md`
 - Create: `CLAUDE.md`, `.github/workflows/deploy.yml`, `README.md`
 
-- [ ] **Step 1: `CLAUDE.md`.** Cover the repo layout (docs/parts/chapters, library, lib, components). Chapters are published by removing `draft: true`. Explain how to add a library entry: the YAML fields with one full example, ids as kebab-case file names, chapter ids as `part-folder/file`, kebab-case tags, and reusing existing tags when they fit (`bun -e` or a grep to list them). Ask the author for `note` if they didn't give one, rather than inventing it. Normalize URLs to the canonical public page. List the commands `bun dev`, `bun run build`, `bun test src`, `bun run test:dist`. No rule about prose.
+- [ ] **Step 1: Write the `add-library-entry` project skill.** Load `writing-for-agents` first and follow it. The skill captures the enrichment process used to build the seed library (see the spec and the Task 2 table for the worked result). Its description triggers on "add this link/article/talk/tool/model", a pasted URL or a list of URLs, or "enrich this entry". The procedure, in order:
+  1. **Fetch the page** and take facts from the page itself: the title, the description (meta/og), the published date (`article:published_time` / JSON-LD `datePublished`), named authors (bylines, "Written by…" / acknowledgements; use the org only when no people are named), and the HTTP status. Never fill these from memory.
+  2. **Pick the canonical URL.** Use the thing's public page, not a dashboard, pricing page, playground anchor or tracking fragment. For a version-pinned page (e.g. a model version on a gateway), check whether a newer version exists. If so, make the entry about the family, link the maker's launch post or home page, and keep the pinned page as a secondary link.
+  3. **Classify `type`.** Use `model` for model releases, even when the source is a blog post.
+  4. **Mine the page's outbound links** for secondary `links`: weights, docs, source repo, API/gateway page, playground, benchmark or eval page. Confirm each loads before adding it. Ignore nav, social and footer links.
+  5. **Connect to the existing library.** Search the library YAML for entries that the page mentions, compares against or benchmarks, or that share a creator. Add `related` in **both** directions by editing the other entry too. In a pasted bookmark list, an item nested under another means "related".
+  6. **Tags.** List the existing tags first and reuse them. Add a new kebab-case tag only for a real new concept (e.g. `decision-models`), and say so.
+  7. **Chapters.** Suggest `chapters` from the docs collection. Report them as guesses for the author to confirm.
+  8. **`summary`.** Write one factual line paraphrasing the page's own description. **Never write `note`.** Ask the author for it, and leave it empty if they don't give one.
+  9. **Surface, don't add.** List adjacent resources found on the page that might deserve their own entry (e.g. a benchmark index, an eval dataset) and let the author decide.
+  10. **Validate and report.** Run `bun run build`. Then report each entry created or changed, the guesses (chapters, new tags, canonical-URL changes) and the candidates from step 9.
 
-- [ ] **Step 2: Deploy workflow.** On push to `main` and `workflow_dispatch`, run `withastro/action` with `package-manager: bun@latest`, then `actions/deploy-pages`. Permissions: `contents: read`, `pages: write`, `id-token: write`. Add a job that runs `bun test src` before the build.
+  Verify: in a fresh Claude Code session in the repo, say "add https://huggingface.co/spaces/multimodalart/jev-decision-index". Expected: the skill triggers, and the new entry gets the `decision-models` tag. `jev` and `cloudflare-clef` gain it in `related`, the build passes, and no `note` is written. Revert the test entry afterwards unless the author wants it.
 
-- [ ] **Step 3: README.** Give the title, a link to the site, a one-line description, local dev commands, and first-time GitHub setup: create the public repo `ai-resources` under `tcorzo`, `git remote add origin …`, push, then Settings → Pages → Source: GitHub Actions. Also note how to change the address (the `site`/`base` lines).
+- [ ] **Step 2: `CLAUDE.md`.** Cover the repo layout (docs/parts/chapters, library, lib, components). Chapters are published by removing `draft: true`. Library entries are added with the `add-library-entry` skill; give one sentence and a pointer, without repeating the procedure. List the commands `bun dev`, `bun run build`, `bun test src`, `bun run test:dist`. No rule about prose.
 
-- [ ] **Step 4: Verify.** Run `bun test src && bun run test:dist`. Expected: PASS. `actionlint .github/workflows/deploy.yml` if available; otherwise check the YAML parses with `bun -e "Bun.YAML.parse(await Bun.file('.github/workflows/deploy.yml').text())"`.
+- [ ] **Step 3: Deploy workflow.** On push to `main` and `workflow_dispatch`, run `withastro/action` with `package-manager: bun@latest`, then `actions/deploy-pages`. Permissions: `contents: read`, `pages: write`, `id-token: write`. Add a job that runs `bun test src` before the build.
 
-- [ ] **Step 5: Commit** (`chore: agent instructions, deploy workflow, README`).
+- [ ] **Step 4: README.** Give the title, a link to the site, a one-line description, local dev commands, and first-time GitHub setup: create the public repo `ai-resources` under `tcorzo`, `git remote add origin …`, push, then Settings → Pages → Source: GitHub Actions. Also note how to change the address (the `site`/`base` lines).
+
+- [ ] **Step 5: Verify.** Run `bun test src && bun run test:dist`. Expected: PASS. `actionlint .github/workflows/deploy.yml` if available; otherwise check the YAML parses with `bun -e "Bun.YAML.parse(await Bun.file('.github/workflows/deploy.yml').text())"`.
+
+- [ ] **Step 6: Commit** (`chore: add-library-entry skill, agent instructions, deploy workflow, README`).
