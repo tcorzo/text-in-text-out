@@ -84,37 +84,40 @@ Run `bun dev` and open `/ai-resources/part-2-model-to-agent/agent-loop/`. Expect
 - Produces: collection `library`. Entry `id` = file name without extension. Data fields:
   - `title: string`
   - `url: string (url)`
-  - `type: 'article' | 'talk' | 'interview' | 'paper' | 'tool' | 'repo' | 'newsletter' | 'inspiration'`
+  - `type: 'article' | 'talk' | 'interview' | 'paper' | 'model' | 'tool' | 'repo' | 'newsletter' | 'inspiration'`
   - `creator: string`
+  - `summary: string`: one factual line describing what the resource is, taken from its own page. This is not the author's opinion.
+  - `published?: date`: for articles, talks and model releases
+  - `links: { label: string; url: string (url) }[]` (default `[]`): secondary links such as weights, docs, a playground or a benchmark
   - `tags: string[]` (each matches `/^[a-z0-9-]+$/`; default `[]`)
-  - `note?: string`
+  - `note?: string`: the author's own "why it's worth your time"
   - `chapters: reference('docs')[]` (default `[]`)
   - `related: reference('library')[]` (default `[]`)
   - `added: date`
 
 - [ ] **Step 1: Add the `library` collection.** Use `glob({ pattern: '**/*.yaml', base: './src/content/library' })` and the schema above (`z` from `astro/zod`, `reference` from `astro:content`). Export it alongside `docs`.
 
-- [ ] **Step 2: Write the seed entries.** Use `added: 2026-10-31` on all of them, with no `note`. Chapter ids are shortened here; write the full ids from Task 1.
+- [ ] **Step 2: Write the seed entries.** Use `added: 2026-10-31` on all of them, with no `note`. Chapter ids are shortened here; write the full ids from Task 1. All URLs were checked live on 2026-10-31. Each `summary` must paraphrase the resource's own page description; all of them were fetched on 2026-10-31.
 
-| id | title | url | type | creator | tags | chapters | related |
-|---|---|---|---|---|---|---|---|
-| building-effective-agents | Building effective AI agents | https://www.anthropic.com/research/building-effective-agents | article | Anthropic | agents, patterns | agent-loop, real-world-patterns | |
-| demystifying-evals | Demystifying evals for AI agents | https://www.anthropic.com/research/demystifying-evals-for-ai-agents | article | Anthropic | evals | evals | |
-| rubyllm | RubyLLM | https://rubyllm.com/ | tool | RubyLLM | frameworks, ruby | | |
-| pydantic-logfire | Pydantic Logfire | https://pydantic.dev/logfire | tool | Pydantic | observability | evals | pydantic-ai |
-| pydantic-ai | Pydantic AI | https://github.com/pydantic/pydantic-ai | repo | Pydantic | frameworks, python | tools, agent-loop, structured-outputs | pydantic-logfire |
-| langfuse | Langfuse | https://langfuse.com/ | tool | Langfuse | observability, evals | evals | |
-| opik | Opik | https://github.com/comet-ml/opik | repo | Comet | observability, evals | evals | |
-| openrouter | OpenRouter | https://openrouter.ai/ | tool | OpenRouter | model-gateways | | litellm |
-| litellm | LiteLLM | https://docs.litellm.ai/ | tool | BerriAI | model-gateways | | openrouter |
-| jev | Jev 1.13 | https://openrouter.ai/typesafe/jev-1.13 | tool | TypeSafe | models | | openrouter |
-| cloudflare-clef | Introducing Clef: open-source decision models | https://blog.cloudflare.com/clef-decision-models/ | article | Cloudflare | models, fine-tuning | | |
-| humanlayer | HumanLayer | https://github.com/humanlayer/humanlayer | repo | HumanLayer | coding-agents | coding-agents | 12-factor-agents, humanlayer-skills, pydantic-monty |
-| 12-factor-agents | 12-Factor Agents | https://github.com/humanlayer/12-factor-agents | repo | HumanLayer | agents, patterns | real-world-patterns, context-engineering | humanlayer |
-| humanlayer-skills | HumanLayer skills | https://github.com/humanlayer/skills | repo | HumanLayer | skills | skills | humanlayer |
-| pydantic-monty | Pydantic Monty | https://pydantic.dev/monty | tool | Pydantic | sandboxes | tools | humanlayer, pydantic-ai |
-| modal | Modal | https://modal.com/ | tool | Modal | sandboxes, compute | | |
-| daytona | Daytona | https://www.daytona.io/ | tool | Daytona | sandboxes | | |
+| id | title | url | type | creator | published | tags | chapters | related | links |
+|---|---|---|---|---|---|---|---|---|---|
+| building-effective-agents | Building effective AI agents | https://www.anthropic.com/research/building-effective-agents | article | Erik S. and Barry Zhang (Anthropic) | 2024-12-19 | agents, patterns, workflows | agent-loop, real-world-patterns | 12-factor-agents | |
+| demystifying-evals | Demystifying evals for AI agents | https://www.anthropic.com/research/demystifying-evals-for-ai-agents | article | Mikaela Grace, Jeremy Hadfield, Rodrigo Olivares, Jiri De Jonghe (Anthropic) | 2026-01-09 | evals, graders | evals | langfuse, opik | |
+| jev | Jev | https://typesafe.ai/blog/introducing-system-one-models-and-jev | model | TypeSafe | 2026-09-18 | decision-models, classification, routing | structured-outputs | cloudflare-clef | System One docs: https://docs.typesafe.ai/concepts/system-one · OpenRouter: https://openrouter.ai/typesafe/jev-1.13 · Jev Decision Index: https://huggingface.co/spaces/multimodalart/jev-decision-index |
+| cloudflare-clef | Clef and Clef-flash | https://blog.cloudflare.com/clef-decision-models/ | model | Cloudflare | 2026-10-01 | decision-models, classification, open-weights, vision, fine-tuning | structured-outputs | jev | Clef weights: https://huggingface.co/Cloudflare/clef · Clef-flash weights: https://huggingface.co/Cloudflare/clef-flash · Workers AI: https://developers.cloudflare.com/workers-ai/models/clef · Evals demo: https://clef-evals.workers-ai-mle.workers.dev |
+| pydantic-ai | Pydantic AI | https://github.com/pydantic/pydantic-ai | repo | Pydantic | | frameworks, python, typed | tools, agent-loop, structured-outputs | pydantic-logfire, pydantic-monty | |
+| pydantic-logfire | Pydantic Logfire | https://pydantic.dev/logfire | tool | Pydantic | | observability, opentelemetry | evals | pydantic-ai, langfuse, opik | |
+| pydantic-monty | Pydantic Monty | https://pydantic.dev/monty | tool | Pydantic | | sandboxes, code-execution | tools | pydantic-ai, humanlayer | GitHub: https://github.com/pydantic/monty |
+| rubyllm | RubyLLM | https://rubyllm.com/ | tool | Carmine Paolino | | frameworks, ruby | | pydantic-ai | |
+| langfuse | Langfuse | https://langfuse.com/ | tool | Langfuse | | observability, evals, open-source | evals | opik, pydantic-logfire | |
+| opik | Opik | https://github.com/comet-ml/opik | repo | Comet | | observability, evals, open-source | evals | langfuse, pydantic-logfire | |
+| openrouter | OpenRouter | https://openrouter.ai/ | tool | OpenRouter | | model-gateways | | litellm | |
+| litellm | LiteLLM | https://docs.litellm.ai/ | tool | BerriAI | | model-gateways, open-source | | openrouter | |
+| humanlayer | HumanLayer | https://github.com/humanlayer/humanlayer | repo | HumanLayer | | coding-agents | coding-agents | 12-factor-agents, humanlayer-skills | |
+| 12-factor-agents | 12-Factor Agents | https://github.com/humanlayer/12-factor-agents | repo | Dex Horthy (HumanLayer) | | agents, patterns, production | real-world-patterns, context-engineering | humanlayer, building-effective-agents | |
+| humanlayer-skills | HumanLayer skills | https://github.com/humanlayer/skills | repo | HumanLayer | | skills | skills | humanlayer | |
+| modal | Modal | https://modal.com/ | tool | Modal | | sandboxes, compute, gpus | | daytona | |
+| daytona | Daytona | https://www.daytona.io/ | tool | Daytona | | sandboxes, code-execution | | modal, pydantic-monty | |
 
 - [ ] **Step 3: Verify the build passes.**
 Run: `bun run build`. Expected: success.
@@ -143,7 +146,7 @@ Run: `bun run build`. Expected: success.
   - `allTags(items: Item[]): string[]`, unique and sorted
   - `itemsForChapter<T extends Item>(items: T[], chapterId: string): T[]`, sorted by title
   - `publishedChapters(refs: Ref[], published: Set<string>): Ref[]`
-- `LibraryItem.astro` props: `{ item: CollectionEntry<'library'>; published: Set<string>; titles: Map<string, string> }`. It renders the title linked to `url`, creator, type, tags (linked to tag pages), the note if present, and "Cited in:" links to published chapters only (omitted when there are none).
+- `LibraryItem.astro` props: `{ item: CollectionEntry<'library'>; published: Set<string>; titles: Map<string, string> }`. It renders the title linked to `url`, creator, type, `published` (if present), `summary`, secondary `links` as small labelled links, tags (linked to tag pages), the note if present (visually distinct from `summary`, since it's the author's voice), and "Cited in:" links to published chapters only (omitted when there are none).
 
 - [ ] **Step 1: Write the failing tests** in `src/lib/library.test.ts`:
   - `withBase('/ai-resources', '/library/')` → `'/ai-resources/library/'`. The same for base `'/ai-resources/'` and path `'library/'`. `withBase('/', '/library/')` → `'/library/'`.
