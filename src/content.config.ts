@@ -3,25 +3,14 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { docsLoader } from '@astrojs/starlight/loaders';
 import { docsSchema } from '@astrojs/starlight/schema';
-
-export const LIBRARY_TYPES = [
-	'article',
-	'talk',
-	'interview',
-	'paper',
-	'model',
-	'tool',
-	'repo',
-	'newsletter',
-	'inspiration',
-] as const;
+import { TYPE_ORDER } from './lib/library';
 
 const library = defineCollection({
 	loader: glob({ pattern: '**/*.yaml', base: './src/content/library' }),
 	schema: z.object({
 		title: z.string(),
 		url: z.string().url(),
-		type: z.enum(LIBRARY_TYPES),
+		type: z.enum(TYPE_ORDER),
 		creator: z.string(),
 		// One factual line describing the resource, from its own page.
 		summary: z.string(),

@@ -1,0 +1,23 @@
+---
+import type { GetStaticPaths } from 'astro';
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import LibraryItem from '../../../components/LibraryItem.astro';
+import { loadLibrary } from '../../../lib/data';
+import { allTags, withBase } from '../../../lib/library';
+
+export const getStaticPaths = (async () => {
+	const { items } = await loadLibrary();
+	return allTags(items).map((tag) => ({ params: { tag } }));
+}) satisfies GetStaticPaths;
+
+const { tag } = Astro.params;
+const { items, published, titles } = await loadLibrary();
+const tagged = items
+	.filter((i) => i.data.tags.includes(tag))
+	.sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<StarlightPage frontmatter={{ title: `Tag: ${tag}`, tableOfContents: false }}>
+	<p><a href={withBase(import.meta.env.BASE_URL, '/library/')}>← Library</a></p>
+	{tagged.map((item) => <LibraryItem item={item} published={published} titles={titles} />)}
+</StarlightPage>
