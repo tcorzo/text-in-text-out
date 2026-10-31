@@ -16,6 +16,7 @@ export default defineConfig({
 		mermaid({ autoTheme: true }),
 		starlight({
 			title: 'AI Resources',
+			routeMiddleware: './src/routeData.ts',
 			components: { MarkdownContent: './src/components/MarkdownContent.astro' },
 			sidebar: [
 				{ label: 'Part I: Primitives', items: [{ autogenerate: { directory: 'part-1-primitives' } }] },

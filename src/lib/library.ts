@@ -68,3 +68,14 @@ export function findBrokenRefs(items: Item[], docIds: Set<string>): string[] {
 			.map((r) => `library/${i.id}: related → "${r.id}" does not exist`),
 	]);
 }
+
+type SidebarLike = { type: 'link' | 'group'; label: string; entries?: SidebarLike[] };
+
+/** Removes sidebar groups that end up with no links (e.g. a part whose chapters are all drafts). */
+export function pruneEmptyGroups<T extends SidebarLike>(entries: T[]): T[] {
+	return entries.flatMap((e) => {
+		if (e.type !== 'group') return [e];
+		const inner = pruneEmptyGroups((e.entries ?? []) as T[]);
+		return inner.length > 0 ? [{ ...e, entries: inner }] : [];
+	});
+}

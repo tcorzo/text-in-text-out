@@ -17,8 +17,8 @@ bun run test:dist  # build + checks on the built site
 ## First-time GitHub setup
 
 1. Create a public repo named `ai-resources` under `tcorzo` on GitHub, with nothing in it.
-2. `git remote add origin git@github.com:tcorzo/ai-resources.git && git push -u origin main`
-3. In the repo, go to **Settings → Pages → Build and deployment → Source** and pick **GitHub Actions**.
+2. In the repo, go to **Settings → Pages → Build and deployment → Source** and pick **GitHub Actions**. Do this before the first push, or the first deploy fails.
+3. `git remote add origin git@github.com:tcorzo/ai-resources.git && git push -u origin main`
 
 Every push to `main` then builds and deploys the site.
 

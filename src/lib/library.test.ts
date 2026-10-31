@@ -4,6 +4,7 @@ import {
 	findBrokenRefs,
 	groupByType,
 	itemsForChapter,
+	pruneEmptyGroups,
 	publishedChapters,
 	withBase,
 	type Item,
@@ -79,5 +80,18 @@ describe('findBrokenRefs', () => {
 	});
 	test('empty when all refs resolve', () => {
 		expect(findBrokenRefs([item('a', { chapters: [{ id: 'p/c' }] })], new Set(['p/c']))).toEqual([]);
+	});
+});
+
+describe('pruneEmptyGroups', () => {
+	const link = { type: 'link' as const, label: 'L' };
+	test('drops groups with no links, recursively, and keeps links and non-empty groups', () => {
+		const pruned = pruneEmptyGroups([
+			{ type: 'group', label: 'Empty', entries: [] },
+			{ type: 'group', label: 'Nested empty', entries: [{ type: 'group', label: 'Inner', entries: [] }] },
+			{ type: 'group', label: 'Full', entries: [link] },
+			link,
+		]);
+		expect(pruned.map((e) => e.label)).toEqual(['Full', 'L']);
 	});
 });
