@@ -1,0 +1,8 @@
+title: LiteLLM
+url: https://docs.litellm.ai/
+type: tool
+creator: BerriAI
+summary: An open-source gateway with one API to 100+ LLM providers, MCP tools and A2A agents, plus key, budget and cost controls.
+tags: [model-gateways, open-source]
+related: [openrouter]
+added: 2026-10-31

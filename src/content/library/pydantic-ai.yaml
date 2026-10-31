@@ -1,0 +1,9 @@
+title: Pydantic AI
+url: https://github.com/pydantic/pydantic-ai
+type: repo
+creator: Pydantic
+summary: Python agent framework covering agents, realtime voice, image generation and embeddings, for every model and typed end to end.
+tags: [frameworks, python, typed]
+chapters: [part-2-model-to-agent/tools, part-2-model-to-agent/agent-loop, part-1-primitives/structured-outputs]
+related: [pydantic-logfire, pydantic-monty, rubyllm]
+added: 2026-10-31

@@ -1,0 +1,9 @@
+title: Opik
+url: https://github.com/comet-ml/opik
+type: repo
+creator: Comet
+summary: Debug, evaluate and monitor LLM apps, RAG systems and agentic workflows with tracing, automated evaluations and dashboards.
+tags: [observability, evals, open-source]
+chapters: [part-3-building-and-judging/evals]
+related: [langfuse, pydantic-logfire, demystifying-evals]
+added: 2026-10-31

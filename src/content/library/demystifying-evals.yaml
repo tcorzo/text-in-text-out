@@ -1,0 +1,10 @@
+title: Demystifying evals for AI agents
+url: https://www.anthropic.com/research/demystifying-evals-for-ai-agents
+type: article
+creator: Mikaela Grace, Jeremy Hadfield, Rodrigo Olivares, Jiri De Jonghe (Anthropic)
+summary: How to design rigorous, useful evals for AI agents across different architectures and real-world deployments.
+published: 2026-01-09
+tags: [evals, graders]
+chapters: [part-3-building-and-judging/evals]
+related: [langfuse, opik]
+added: 2026-10-31

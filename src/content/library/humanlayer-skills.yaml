@@ -1,0 +1,9 @@
+title: HumanLayer skills
+url: https://github.com/humanlayer/skills
+type: repo
+creator: HumanLayer
+summary: Claude Code skills from HumanLayer, including rpi, which researches, designs and implements a change across fresh sessions.
+tags: [skills, coding-agents]
+chapters: [part-2-model-to-agent/skills]
+related: [humanlayer]
+added: 2026-10-31

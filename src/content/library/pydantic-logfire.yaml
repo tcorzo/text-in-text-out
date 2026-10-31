@@ -1,0 +1,9 @@
+title: Pydantic Logfire
+url: https://pydantic.dev/logfire
+type: tool
+creator: Pydantic
+summary: Production AI and general observability built on OpenTelemetry, for LLM apps in Python, TypeScript, Rust, Go, Java and other OTel languages.
+tags: [observability, opentelemetry]
+chapters: [part-3-building-and-judging/evals]
+related: [pydantic-ai, langfuse, opik]
+added: 2026-10-31

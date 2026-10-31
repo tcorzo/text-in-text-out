@@ -1,0 +1,8 @@
+title: RubyLLM
+url: https://rubyllm.com/
+type: tool
+creator: Carmine Paolino
+summary: Build and evaluate AI features in Ruby and Rails, with chats, tools, agents, images, audio and video across 19 providers.
+tags: [frameworks, ruby]
+related: [pydantic-ai]
+added: 2026-10-31

@@ -1,0 +1,9 @@
+title: HumanLayer
+url: https://github.com/humanlayer/humanlayer
+type: repo
+creator: HumanLayer
+summary: Tooling to get AI coding agents to solve hard problems in complex codebases.
+tags: [coding-agents]
+chapters: [part-4-in-practice/coding-agents]
+related: [12-factor-agents, humanlayer-skills, pydantic-monty]
+added: 2026-10-31

@@ -1,0 +1,8 @@
+title: Modal
+url: https://modal.com/
+type: tool
+creator: Modal
+summary: Cloud infrastructure for developing, training and serving AI applications, billed per second for GPUs and CPUs.
+tags: [sandboxes, compute, gpus]
+related: [daytona]
+added: 2026-10-31

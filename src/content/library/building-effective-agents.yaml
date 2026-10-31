@@ -1,0 +1,10 @@
+title: Building effective AI agents
+url: https://www.anthropic.com/research/building-effective-agents
+type: article
+creator: Erik S. and Barry Zhang (Anthropic)
+summary: Practical guidance on building reliable agents, from simple composable workflow patterns up to fully autonomous systems.
+published: 2024-12-19
+tags: [agents, patterns, workflows]
+chapters: [part-2-model-to-agent/agent-loop, part-4-in-practice/real-world-patterns]
+related: [12-factor-agents]
+added: 2026-10-31

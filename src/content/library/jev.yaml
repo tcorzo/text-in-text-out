@@ -1,0 +1,17 @@
+title: Jev
+url: https://typesafe.ai/blog/introducing-system-one-models-and-jev
+type: model
+creator: TypeSafe
+summary: A structured decision model and TypeSafe's first "System One" model. It returns a typed choice instead of free-form text, for routing, classification and other decision points in software.
+published: 2026-09-18
+links:
+  - label: System One docs
+    url: https://docs.typesafe.ai/concepts/system-one
+  - label: OpenRouter
+    url: https://openrouter.ai/typesafe/jev-1.13
+  - label: Jev Decision Index
+    url: https://huggingface.co/spaces/multimodalart/jev-decision-index
+tags: [decision-models, classification, routing]
+chapters: [part-2-model-to-agent/decision-models, part-1-primitives/structured-outputs]
+related: [cloudflare-clef, openrouter]
+added: 2026-10-31

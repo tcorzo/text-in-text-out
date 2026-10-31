@@ -1,0 +1,19 @@
+title: Clef and Clef-flash
+url: https://blog.cloudflare.com/clef-decision-models/
+type: model
+creator: Cloudflare
+summary: Open-weight (Apache-2.0) decision models on Workers AI that return typed answers with probabilities, with image input and a 64k context, launched alongside an RL fine-tuning platform.
+published: 2026-10-01
+links:
+  - label: Clef weights
+    url: https://huggingface.co/Cloudflare/clef
+  - label: Clef-flash weights
+    url: https://huggingface.co/Cloudflare/clef-flash
+  - label: Workers AI
+    url: https://developers.cloudflare.com/workers-ai/models/clef
+  - label: Evals demo
+    url: https://clef-evals.workers-ai-mle.workers.dev
+tags: [decision-models, classification, open-weights, vision, fine-tuning]
+chapters: [part-2-model-to-agent/decision-models, part-1-primitives/structured-outputs]
+related: [jev]
+added: 2026-10-31

@@ -1,0 +1,8 @@
+title: OpenRouter
+url: https://openrouter.ai/
+type: tool
+creator: OpenRouter
+summary: One API for every model, for comparing models and prices across providers.
+tags: [model-gateways]
+related: [litellm, jev]
+added: 2026-10-31

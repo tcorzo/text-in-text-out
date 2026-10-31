@@ -1,0 +1,12 @@
+title: Pydantic Monty
+url: https://pydantic.dev/monty
+type: tool
+creator: Pydantic
+summary: An execution layer that runs the Python your agents write, with controlled host access, resource limits and pause/resume snapshots.
+links:
+  - label: GitHub
+    url: https://github.com/pydantic/monty
+tags: [sandboxes, code-execution]
+chapters: [part-2-model-to-agent/tools]
+related: [pydantic-ai, humanlayer, daytona]
+added: 2026-10-31

@@ -1,0 +1,9 @@
+title: Langfuse
+url: https://langfuse.com/
+type: tool
+creator: Langfuse
+summary: Open-source platform to trace, evaluate and improve AI agents using production data.
+tags: [observability, evals, open-source]
+chapters: [part-3-building-and-judging/evals]
+related: [opik, pydantic-logfire, demystifying-evals]
+added: 2026-10-31
