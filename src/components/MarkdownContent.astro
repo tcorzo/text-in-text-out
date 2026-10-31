@@ -1,0 +1,12 @@
+---
+// Starlight override: the default content, then "Further reading" for chapters.
+import Default from '@astrojs/starlight/components/MarkdownContent.astro';
+import FurtherReading from './FurtherReading.astro';
+
+const { id } = Astro.locals.starlightRoute.entry;
+---
+
+<Default>
+	<slot />
+	<FurtherReading chapterId={id} />
+</Default>

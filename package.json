@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "test": "bun test src",
+    "test:dist": "bun run build && bun test tests",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
