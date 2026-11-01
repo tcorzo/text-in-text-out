@@ -36,8 +36,6 @@ const glossary = defineCollection({
 		forms: z.array(z.string()).default([]),
 		// One short sentence: the hover text and the glossary entry.
 		definition: z.string(),
-		// The image or comparison the chapter used ("a black box").
-		image: z.string().optional(),
 		// Phrases where a form means something else ("error message").
 		skip: z.array(z.string()).default([]),
 		// False for terms too central to underline on every page ("model").

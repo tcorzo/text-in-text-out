@@ -1,5 +1,4 @@
 term: model
 forms: [models]
 definition: A program that takes text and gives back text.
-image: a black box
 markMentions: false

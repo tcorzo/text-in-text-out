@@ -5,7 +5,6 @@ export type TermData = {
 	term: string;
 	forms: string[];
 	definition: string;
-	image?: string;
 	skip: string[];
 	markMentions: boolean;
 };

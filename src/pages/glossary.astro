@@ -1,5 +1,6 @@
 ---
 // Every published term, grouped by the chapter that introduces it, in reading order.
+// Each term links to the sentence in its chapter that defines it.
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 import { loadGlossary } from '../lib/data';
 import { groupByChapter } from '../lib/glossary';
@@ -23,13 +24,10 @@ const slug = (chapter: string) => chapter.replace('/', '--');
 				<dl>
 					{g.terms.map(({ term }) => (
 						<>
-							<dt id={term.id}>{term.data.term}</dt>
+							<dt id={term.id}>
+								<a href={withBase(base, `/${g.chapter}/#term-${term.id}`)}>{term.data.term}</a>
+							</dt>
 							<dd>{term.data.definition}</dd>
-							{term.data.image && <dd>Image: {term.data.image}</dd>}
-							<dd>
-								Introduced in{' '}
-								<a href={withBase(base, `/${g.chapter}/#term-${term.id}`)}>{titles.get(g.chapter)}</a>
-							</dd>
 						</>
 					))}
 				</dl>
