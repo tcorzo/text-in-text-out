@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import react from '@astrojs/react';
 import mermaid from 'astro-mermaid';
 import starlightThemeRapide from 'starlight-theme-rapide';
 
@@ -28,5 +29,6 @@ export default defineConfig({
 				{ label: 'Library', link: '/library/' },
 			],
 		}),
+		react(),
 	],
 });
