@@ -1,0 +1,8 @@
+# Orca worktree setup: https://www.onorca.dev/docs/model/orca-yaml
+scripts:
+  setup: |
+    mise trust
+    mise install
+    bun install --frozen-lockfile
+# Agents start once dependencies are installed, so their first test or build run works.
+setupAgentStartupPolicy: wait-for-setup

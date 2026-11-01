@@ -1,0 +1,5 @@
+# Tool versions for local dev, Orca worktrees (orca.yaml), and CI (jdx/mise-action).
+# Astro's CLI runs on Node even when started through bun, so both are pinned.
+[tools]
+bun = "1.4.4"
+node = "26.13.0"

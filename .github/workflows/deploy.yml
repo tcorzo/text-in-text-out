@@ -15,12 +15,17 @@ concurrency:
   group: pages-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  # mise only reads a project config it trusts.
+  MISE_TRUSTED_CONFIG_PATHS: ${{ github.workspace }}
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: oven-sh/setup-bun@v2
+      # Installs the bun and node versions pinned in mise.toml.
+      - uses: jdx/mise-action@v5
       - run: bun install --frozen-lockfile
       - run: bun test src
 
@@ -29,11 +34,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: withastro/action@v6
-        with:
-          package-manager: bun@latest
-      - uses: oven-sh/setup-bun@v2
+      # Installs the bun and node versions pinned in mise.toml.
+      - uses: jdx/mise-action@v5
+      - run: bun install --frozen-lockfile
+      - run: bun run build
       - run: bun test tests
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
 
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

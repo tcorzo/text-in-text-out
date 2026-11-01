@@ -12,6 +12,7 @@ A book about AI agents (models → agent loop → harnesses → evals), plus a l
 
 ## Gotchas
 
+- Tool versions (bun, node) live in `mise.toml`, the one source CI (`jdx/mise-action`) and Orca's worktree setup (`orca.yaml`) both read. Bump a version there, never in the workflow.
 - Astro only *logs* broken content references. The real failure comes from `loadLibrary()` in `src/lib/data.ts`, so keep the library pages using it.
 - The site lives under `/ai-resources/`. In components, build internal links with `withBase(import.meta.env.BASE_URL, path)`. In frontmatter fields Starlight doesn't prefix (hero actions), use relative links.
 - Diagrams are Mermaid fenced code blocks (`astro-mermaid`). Code examples are illustrative and never run.
