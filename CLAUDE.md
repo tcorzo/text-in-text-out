@@ -7,7 +7,8 @@ A book about AI agents (models → agent loop → harnesses → evals), plus a l
 - `src/content/docs/part-N-*/` holds the book: one folder per part, one `.mdx` per chapter, ordered by `sidebar.order`. Unwritten chapters carry `draft: true`, so they show in `bun dev` and stay off the public site. Publish a chapter by removing that line.
 - `src/content/library/` holds one YAML file per resource. Add or enrich entries with the `add-library-entry` skill.
 - `src/lib/library.ts` holds pure helpers (tested in `src/lib/library.test.ts`). `src/lib/data.ts` loads the collections and fails the build on broken references.
-- `src/components/` holds the library item view, the "Further reading" block and the `MarkdownContent` override that appends it to chapters.
+- `src/content/glossary/` holds one YAML file per glossary term. `src/lib/glossary.ts` finds each term's `<Define>` and works out reading order. `src/lib/mentions.ts` marks the first mention of earlier terms in each chapter.
+- `src/components/` holds the library item view, the "Further reading" block, the glossary popover, and the `MarkdownContent` override that marks glossary mentions and appends "Further reading" to chapters.
 
 ## Gotchas
 
@@ -21,6 +22,8 @@ The book builds vocabulary one term at a time. A chapter introduces a term with 
 
 To point at another chapter, use `<ChapterLink id="part-1-primitives/tokens-and-context" />` (`import ChapterLink from '~/components/ChapterLink.astro';`). It shows the chapter's own title, renders as plain text while that chapter is a draft, and fails the build if the id doesn't exist.
 
+To introduce a term, wrap it with `<Define term="id">word</Define>` (`import Define from '~/components/Define.astro';`) in the sentence that defines it, and add `src/content/glossary/<id>.yaml` with its `definition`. Italics are plain emphasis, not a definition. In later chapters the first mention of each term is marked automatically. Set `markMentions: false` on a term too central to underline ("model"), and list `skip` phrases where a form means something else ("error message").
+
 ## UI
 
 Build UI from Starlight's built-in components first (https://starlight.astro.build/components/using-components/): `Card`, `CardGrid`, `LinkCard`, `LinkButton`, `Badge`, `Aside`, `Tabs`, `Steps`, `FileTree`, `Icon`. If none fits, look for a Starlight plugin (https://starlight.astro.build/resources/plugins/). Write your own HTML/CSS only after both come up empty.
@@ -33,6 +36,7 @@ Build UI from Starlight's built-in components first (https://starlight.astro.bui
 | Refer to other chapters with `<ChapterLink>`, never by name in prose or with a hand-written link | `src/ui-rules.test.ts` flags "chapter on/about" and relative or `part-` Markdown links. `resolveChapterLink` fails the build on an unknown id |
 | Introduce a term with its image once, then use only the term | Review only. A judgment call that no check can make |
 | Library references point at real chapters and entries | `loadLibrary()` in `src/lib/data.ts` fails the build |
+| Every `<Define>` has a glossary file, each term is defined once, and every glossary file is defined in some chapter | `loadGlossary()` in `src/lib/data.ts` fails the build |
 | Tags are kebab-case | Zod schema in `src/content.config.ts` |
 | Internal links carry the `/ai-resources` base | `tests/dist.test.ts` (`bun run test:dist`, also in CI) |
 | Draft chapters stay off the public site | `tests/dist.test.ts` |
