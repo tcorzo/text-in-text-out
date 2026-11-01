@@ -1,4 +1,4 @@
 term: message
 forms: [messages]
-definition: 'One entry in the messages array of a request. Each message has a role and content. The array holds the conversation in order. The client appends to it and resends the full array on every call.'
+definition: 'One turn in a conversation: a role and its content. Model APIs take the conversation as an ordered list of messages and return the model''s reply as a new message. Content is plain text, or a list of parts such as text and images.'
 skip: [error message, error messages]

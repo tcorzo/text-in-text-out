@@ -1,3 +1,3 @@
 term: token
 forms: [tokens]
-definition: 'The unit of text a model reads and writes. A tokenizer splits text into tokens, usually whole words, parts of words, or punctuation. Context length, max_tokens, and billed usage are all counted in tokens.'
+definition: 'The unit of text a model reads and writes. A tokenizer splits text into tokens, usually whole words, parts of words, or punctuation. Context length, `max_tokens`, and billed usage are all counted in tokens.'

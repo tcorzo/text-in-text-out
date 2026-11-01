@@ -3,7 +3,7 @@
 // Each term links to the sentence in its chapter that defines it.
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 import { loadGlossary } from '../lib/data';
-import { groupByChapter } from '../lib/glossary';
+import { groupByChapter, renderDefinition } from '../lib/glossary';
 import { withBase } from '../lib/library';
 
 const { terms, sites, order, published, titles } = await loadGlossary();
@@ -29,7 +29,7 @@ const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 							<dt id={term.id}>
 								<a href={withBase(base, `/${g.chapter}/#term-${term.id}`)}>{capitalize(term.data.term)}</a>
 							</dt>
-							<dd>{term.data.definition}</dd>
+							<dd set:html={renderDefinition(term.data.definition)} />
 						</>
 					))}
 				</dl>

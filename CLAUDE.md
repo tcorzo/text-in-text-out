@@ -22,7 +22,7 @@ The book builds vocabulary one term at a time. A chapter introduces a term with 
 
 To point at another chapter, use `<ChapterLink id="part-1-primitives/tokens-and-context" />` (`import ChapterLink from '~/components/ChapterLink.astro';`). It shows the chapter's own title, renders as plain text while that chapter is a draft, and fails the build if the id doesn't exist.
 
-To introduce a term, wrap it with `<Define term="id">word</Define>` (`import Define from '~/components/Define.astro';`) in the sentence that defines it, and add `src/content/glossary/<id>.yaml` with its `definition`. Italics are plain emphasis, not a definition. In later chapters the first mention of each term is marked automatically. Set `markMentions: false` on a term too central to underline ("model"), and list `skip` phrases where a form means something else ("error message").
+To introduce a term, wrap it with `<Define term="id">word</Define>` (`import Define from '~/components/Define.astro';`) in the sentence that defines it, and add `src/content/glossary/<id>.yaml` with its `definition` (inline Markdown, reference style). Italics are plain emphasis, not a definition. In later chapters the first mention of each term is marked automatically. Set `markMentions: false` on a term too central to underline ("model"), and list `skip` phrases where a form means something else ("error message").
 
 ## UI
 

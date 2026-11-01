@@ -5,6 +5,7 @@
 import { LinkButton } from '@astrojs/starlight/components';
 
 interface Props {
+	// `definition` is HTML rendered from the term file's Markdown (src/content/glossary/).
 	terms: Array<{ id: string; term: string; definition: string }>;
 }
 
@@ -40,7 +41,7 @@ const json = JSON.stringify(byId).replace(/</g, '\\u003c');
 		if (!term) return;
 		current?.removeAttribute('aria-describedby');
 		current = mention;
-		text.textContent = term.definition;
+		text.innerHTML = term.definition;
 		button.href = mention.href;
 		mention.setAttribute('aria-describedby', 'glossary-popover');
 		popover.hidden = false;

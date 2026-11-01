@@ -1,5 +1,6 @@
 // Pure helpers for the glossary. No `astro:content` import, so `bun test` can run them.
 // A term's home is the chapter where its <Define term="..."> sits; nothing else records it.
+import { marked } from 'marked';
 
 export type TermData = {
 	term: string;
@@ -88,4 +89,9 @@ export function mentionableIn(
 			);
 		})
 		.map((t) => ({ id: t.id, forms: [t.data.term, ...t.data.forms], skip: t.data.skip }));
+}
+
+/** A definition's inline Markdown as HTML: code, emphasis, and links, with no wrapping <p>. */
+export function renderDefinition(markdown: string): string {
+	return marked.parseInline(markdown, { async: false });
 }

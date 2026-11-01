@@ -5,6 +5,7 @@ import {
 	groupByChapter,
 	mentionableIn,
 	readingOrder,
+	renderDefinition,
 	type DefineSite,
 	type Term,
 	type TermData,
@@ -82,4 +83,10 @@ test('groupByChapter follows reading order, then position in the chapter, and dr
 	expect(groups.map((g) => [g.chapter, g.terms.map((t) => t.term.id)])).toEqual([
 		['part-1-primitives/b', ['model', 'token']],
 	]);
+});
+
+test('renderDefinition turns inline Markdown into HTML without a wrapping paragraph', () => {
+	expect(renderDefinition('Set `"stream": true` for *each* request.')).toBe(
+		'Set <code>&quot;stream&quot;: true</code> for <em>each</em> request.',
+	);
 });

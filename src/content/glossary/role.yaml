@@ -1,4 +1,4 @@
 term: role
 forms: [roles]
-definition: 'The field on a message that identifies its author. "user" marks input from the client, and "assistant" marks output from the model. A conversation alternates between the two.'
+definition: 'The author of a message. Most APIs use `user` for input from the caller and `assistant` for output from the model. Many also accept `system` for instructions that apply to the whole conversation.'
 skip: [the role of]

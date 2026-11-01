@@ -4,7 +4,7 @@ import Default from '@astrojs/starlight/components/MarkdownContent.astro';
 import FurtherReading from './FurtherReading.astro';
 import GlossaryPopover from './GlossaryPopover.astro';
 import { loadGlossary } from '../lib/data';
-import { mentionableIn } from '../lib/glossary';
+import { mentionableIn, renderDefinition } from '../lib/glossary';
 import { withBase } from '../lib/library';
 import { markMentions } from '../lib/mentions';
 
@@ -18,7 +18,7 @@ const { html, marked } = markMentions(await Astro.slots.render('default'), menti
 );
 const popoverTerms = terms
 	.filter((t) => marked.includes(t.id))
-	.map((t) => ({ id: t.id, term: t.data.term, definition: t.data.definition }));
+	.map((t) => ({ id: t.id, term: t.data.term, definition: renderDefinition(t.data.definition) }));
 ---
 
 <Default>
