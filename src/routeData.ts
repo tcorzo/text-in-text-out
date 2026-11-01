@@ -1,6 +1,9 @@
-// Starlight route middleware: hide sidebar parts whose chapters are all drafts,
-// the glossary link while no term is published, and the outline entries of <Draft> sections.
+// Starlight route middleware: list every chapter in the sidebar, drafts badged ("Draft" in dev,
+// "Coming soon" in production), and hide the glossary link while no term is published and the
+// outline entries of <Draft> sections.
 import { defineRouteMiddleware } from '@astrojs/starlight/route-data';
+import { getCollection } from 'astro:content';
+import { chaptersOf, withDraftChapters } from './lib/book';
 import { loadGlossary } from './lib/data';
 import { groupByChapter } from './lib/glossary';
 import { dropLink, pruneEmptyGroups, withBase } from './lib/library';
@@ -12,7 +15,10 @@ const dropSlugs = <T extends TocItem>(items: T[], slugs: Set<string>): T[] =>
 
 export const onRequest = defineRouteMiddleware(async (context) => {
 	const route = context.locals.starlightRoute;
-	route.sidebar = pruneEmptyGroups(route.sidebar);
+	const chapters = chaptersOf(await getCollection('docs'));
+	route.sidebar = pruneEmptyGroups(
+		withDraftChapters(route.sidebar, chapters, { prod: import.meta.env.PROD, base: import.meta.env.BASE_URL }),
+	);
 
 	if (import.meta.env.PROD) {
 		const drafted = draftHeadingSlugs(route.entry.body ?? '');

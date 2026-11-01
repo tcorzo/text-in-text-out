@@ -18,11 +18,11 @@ export default defineConfig({
 		// Must come before Starlight.
 		mermaid({ autoTheme: true }),
 		starlight({
-			title: 'AI Resources',
+			title: 'Text In, Text Out',
 			plugins: [
 				starlightThemeRapide(),
 				// Hero actions don't get the base prefix, so the home page links to the library relatively.
-				starlightLinksValidator({ exclude: ['./library/'] }),
+				starlightLinksValidator({ exclude: ['./library/', './part-1-primitives/what-is-a-model/'] }),
 			],
 			routeMiddleware: './src/routeData.ts',
 			components: { MarkdownContent: './src/components/MarkdownContent.astro' },

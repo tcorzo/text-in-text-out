@@ -4,9 +4,11 @@ Read this before you draft or edit chapter prose. The author writes the book and
 
 ## The reader
 
-A software engineer. They know HTTP, JSON, Python, API keys, and `curl`, so the book never explains those. They have used ChatGPT or Claude, but they have never built on a model. They have picked up some hype and some wrong ideas along the way.
+An experienced software engineer. They build large, resilient systems. They know observability, retries, queues, HTTP, and JSON, and they know what breaks at scale. The book never explains those. They have used ChatGPT or Claude, but they have never built a system on top of a model. They have picked up some hype and some wrong ideas along the way.
 
-The book replaces those ideas with an accurate picture, built one idea at a time: the model, then the agent loop, then tools, harnesses, and evals. It feels like a software engineering book. A newcomer reads it front to back, and someone experienced jumps to the chapter they need.
+The book is how the author would explain AI agents on a whiteboard to an engineer joining their team. It replaces those ideas with an accurate picture, built one idea at a time: the model, then the agent loop, then tools, harnesses, and evals. It feels like a software engineering book.
+
+Each chapter explains its idea to someone who meets it for the first time. It uses plain words and the real terms, and it stays shallow. The chapter's Further reading goes deeper. A reader who already knows a chapter's subject skips it, and the home page tells them so.
 
 ## How it reads
 

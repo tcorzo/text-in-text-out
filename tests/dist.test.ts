@@ -54,6 +54,21 @@ const PART_LABELS: Record<string, string> = {
 };
 
 describe('production build', () => {
+	test('the home page lists every chapter, drafts as "Coming soon" without a link', () => {
+		const home = pages.find((p) => p.path === 'index.html')!.html;
+		const lineOf = (id: string) => home.match(new RegExp(`<li id="chapter-${id.replace('/', '-')}"[\\s\\S]*?</li>`))?.[0];
+		expect(chapters.filter((c) => !lineOf(c.id)).map((c) => c.id)).toEqual([]);
+		expect(drafts.filter((id) => !lineOf(id)!.includes('Coming soon')).map((id) => id)).toEqual([]);
+		expect(publishedIds.filter((id) => !lineOf(id)!.includes(`href="/ai-resources/${id}/"`))).toEqual([]);
+	});
+
+	test('the sidebar lists draft chapters as "Coming soon", linked to the home page contents', () => {
+		const sidebar = pages.find((p) => p.path === 'library/index.html')!.html.match(/<nav[^>]*aria-label="Main"[\s\S]*?<\/nav>/)?.[0] ?? '';
+		const missing = drafts.filter((id) => !sidebar.includes(`href="/ai-resources/#chapter-${id.replace('/', '-')}"`));
+		expect(missing).toEqual([]);
+		expect(sidebar).toContain('Coming soon');
+	});
+
 	test('every external link in page content opens in a new tab', () => {
 		const offenders = pages.flatMap(({ path, html }) => {
 			const main = html.match(/<main\b[\s\S]*<\/main>/)?.[0] ?? '';
@@ -116,11 +131,8 @@ describe('production build', () => {
 		expect(html.includes('href="/ai-resources/glossary/"')).toBe(publishedTerms.length > 0);
 	});
 
-	test('sidebar shows a part only when it has a published chapter', () => {
+	test('sidebar shows every part, including parts with only draft chapters', () => {
 		const html = readFileSync(join(DIST, 'library/index.html'), 'utf8');
-		for (const [dir, label] of Object.entries(PART_LABELS)) {
-			const hasPublished = publishedIds.some((id) => id.startsWith(`${dir}/`));
-			expect({ label, shown: html.includes(label) }).toEqual({ label, shown: hasPublished });
-		}
+		expect(Object.values(PART_LABELS).filter((label) => !html.includes(label))).toEqual([]);
 	});
 });

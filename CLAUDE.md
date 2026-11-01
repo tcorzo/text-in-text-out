@@ -1,6 +1,6 @@
-# AI Resources
+# Text In, Text Out
 
-A book about AI agents (models → agent loop → harnesses → evals), plus a library of the resources behind it. Built with Astro + Starlight and Bun, and published to GitHub Pages.
+*Text In, Text Out*, a book about AI agents for experienced engineers, plus a library of the resources that the chapters cite. The book goes from models to the agent loop, harnesses, and evals. Built with Astro + Starlight and Bun, and published to GitHub Pages.
 
 ## Layout
 

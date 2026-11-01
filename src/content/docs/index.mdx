@@ -1,9 +1,33 @@
 ---
-title: AI Resources
+title: Text In, Text Out
+description: How I'd explain AI agents to an engineer joining my team.
 template: splash
 hero:
+  tagline: How I'd explain AI agents to an engineer joining my team.
   actions:
+    - text: Start reading
+      link: ./part-1-primitives/what-is-a-model/
+      icon: right-arrow
     - text: Library
       link: ./library/
-      icon: right-arrow
+      variant: minimal
 ---
+
+import BookContents from '~/components/BookContents.astro';
+import HomeLinks from '~/components/HomeLinks.astro';
+
+## Who it's for
+
+You've built large, resilient systems. You know tracing, retries, queues, and what breaks at scale. You've used ChatGPT or Claude, but you haven't built a system on top of a model yet. This book is how I'd onboard you. It covers one idea at a time, starting with what a model is and ending with how you know your agent works.
+
+## Skip what you know
+
+If you read a chapter's title and already know what it's about, you probably won't learn much from the chapter. Skip it, or open its Further reading. Those links go much deeper than I care to explain in the book.
+
+## What's inside
+
+<BookContents />
+
+## Beyond the chapters
+
+<HomeLinks />

@@ -1,0 +1,37 @@
+---
+// The home page's table of contents: one Card per part, every chapter listed.
+// Published chapters link to their page. Drafts show a badge, and link only in dev.
+// Each chapter line has an id, so a draft's sidebar entry can point at it in production.
+import { Badge, Card, CardGrid } from '@astrojs/starlight/components';
+import { getCollection } from 'astro:content';
+import { chaptersOf, COMING_SOON_BADGE, contentsAnchor, DRAFT_BADGE, tableOfContents } from '../lib/book';
+import { withBase } from '../lib/library';
+
+const prod = import.meta.env.PROD;
+const base = import.meta.env.BASE_URL;
+const contents = tableOfContents(chaptersOf(await getCollection('docs')));
+const badge = prod ? COMING_SOON_BADGE : DRAFT_BADGE;
+---
+
+<CardGrid>
+	{
+		contents.map(({ part, chapters }) => (
+			<Card title={part.label}>
+				<p>{part.summary}</p>
+				<ul>
+					{chapters.map((c) => (
+						<li id={contentsAnchor(c.id)}>
+							{c.draft && prod ? c.title : <a href={withBase(base, `/${c.id}/`)}>{c.title}</a>}
+							{c.draft && (
+								<>
+									{' '}
+									<Badge text={badge.text} variant={badge.variant} size="small" />
+								</>
+							)}
+						</li>
+					))}
+				</ul>
+			</Card>
+		))
+	}
+</CardGrid>

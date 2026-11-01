@@ -1,0 +1,32 @@
+---
+// The home page's links to the library and the glossary, with live counts.
+// The glossary card shows only once a term is published, like its sidebar link.
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+import { loadGlossary, loadLibrary } from '../lib/data';
+import { groupByChapter } from '../lib/glossary';
+import { groupByType, TYPE_LABELS, withBase } from '../lib/library';
+
+const base = import.meta.env.BASE_URL;
+const { items } = await loadLibrary();
+const kinds = groupByType(items).map((g) => TYPE_LABELS[g.type].toLowerCase());
+const kindList = kinds.length > 1 ? `${kinds.slice(0, -1).join(', ')}, and ${kinds.at(-1)}` : kinds.join('');
+const { terms, sites, order, published } = await loadGlossary();
+const termCount = groupByChapter(terms, sites, order, published).reduce((n, g) => n + g.terms.length, 0);
+---
+
+<CardGrid>
+	<LinkCard
+		title="Library"
+		description={`${items.length} resources that the chapters cite: ${kindList}.`}
+		href={withBase(base, '/library/')}
+	/>
+	{
+		termCount > 0 && (
+			<LinkCard
+				title="Glossary"
+				description={`${termCount} terms, each defined in the chapter that introduces it.`}
+				href={withBase(base, '/glossary/')}
+			/>
+		)
+	}
+</CardGrid>

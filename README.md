@@ -1,8 +1,8 @@
-# AI Resources
+# Text In, Text Out
 
 https://tcorzo.github.io/ai-resources/
 
-A book on how AI agents work, from models up to harnesses and evals, and a library of the resources behind it.
+*Text In, Text Out* is how I'd explain AI agents to an engineer joining my team. The book covers models, the agent loop, harnesses, and evals. A library collects the resources that the chapters cite.
 
 ## Local development
 
