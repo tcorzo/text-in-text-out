@@ -173,7 +173,7 @@ The code appends the whole reply as it came back, not only its text. A reply can
 
 The second request contains the whole conversation, so the model answers as if it remembered. The memory lives in your program, not in the model.
 
-This has a cost. The request gets longer with every message, and `usage` counts every message again on every call. <ChapterLink id="part-1-primitives/tokens-and-context" /> covers how long a conversation can get.
+This has a cost. The request gets longer with every message, and `usage` counts every message again on every call. <ChapterLink id="part-1-primitives/context-window" /> covers how long a conversation can get.
 
 ## What's in the box?
 
@@ -190,7 +190,7 @@ flowchart LR
   class start,finish point
 ```
 
-These pieces are called <Define term="token">tokens</Define>. A token is often a word or part of a word. <ChapterLink id="part-1-primitives/tokens-and-context" /> looks at them closely.
+These pieces are called <Define term="token">tokens</Define>. A token is often a word or part of a word. The numbers in `usage` are counts of tokens, so tokens are what you pay for.
 
 The model learned which pieces tend to follow which from the huge amount of text it was trained on. That's all "predict" means here: given this text, what comes next?
 

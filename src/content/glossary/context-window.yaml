@@ -1,0 +1,3 @@
+term: context-window
+forms: [context windows]
+definition: 'The fixed amount of space, counted in tokens, that a model works in on one call. The request fills it, and the model''s output is added to it as it is generated. Text outside it does not reach the model. Its size depends on the model, up to around a million tokens.'
