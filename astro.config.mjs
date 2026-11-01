@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
 import mermaid from 'astro-mermaid';
+import starlightLinksValidator from 'starlight-links-validator';
 import starlightThemeRapide from 'starlight-theme-rapide';
 
 // Site address. Change both lines together if the site moves
@@ -18,7 +19,11 @@ export default defineConfig({
 		mermaid({ autoTheme: true }),
 		starlight({
 			title: 'AI Resources',
-			plugins: [starlightThemeRapide()],
+			plugins: [
+				starlightThemeRapide(),
+				// Hero actions don't get the base prefix, so the home page links to the library relatively.
+				starlightLinksValidator({ exclude: ['./library/'] }),
+			],
 			routeMiddleware: './src/routeData.ts',
 			components: { MarkdownContent: './src/components/MarkdownContent.astro' },
 			sidebar: [
