@@ -1,4 +1,4 @@
 term: role
 forms: [roles]
-definition: 'Says who wrote a message. "user" marks text you send, and "assistant" marks text the model sent back. The roles let the model tell its own earlier replies apart from yours.'
+definition: 'The field on a message that identifies its author. "user" marks input from the client, and "assistant" marks output from the model. A conversation alternates between the two.'
 skip: [the role of]

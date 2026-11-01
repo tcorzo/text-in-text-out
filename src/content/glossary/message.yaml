@@ -1,4 +1,4 @@
 term: message
 forms: [messages]
-definition: 'One piece of a conversation. A request carries a list of messages, and each one has a role that says who wrote it. To continue a conversation, your program adds the model''s reply and your next message to the list, then sends the whole list again.'
+definition: 'One entry in the messages array of a request. Each message has a role and content. The array holds the conversation in order. The client appends to it and resends the full array on every call.'
 skip: [error message, error messages]

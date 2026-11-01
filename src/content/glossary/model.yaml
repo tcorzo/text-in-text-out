@@ -1,4 +1,4 @@
 term: model
 forms: [models]
-definition: 'A program that takes text in and gives text back. Chat apps, coding agents, and other AI tools are all built on one: they choose what text to send and decide what to do with the reply. Claude Opus and GPT are models. ChatGPT and Claude are apps that use them.'
+definition: 'A trained neural network that maps input text to output text. It generates output one token at a time, predicting each token from all the text before it. Applications reach a model through an API. Claude Opus and GPT are models. ChatGPT and Claude are applications built on them.'
 markMentions: false

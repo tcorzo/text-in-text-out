@@ -1,3 +1,3 @@
 term: token
 forms: [tokens]
-definition: 'A small piece of text, often a word or part of a word. A model writes its answer one token at a time: it predicts the next token, adds it to the end, and repeats. Limits such as max_tokens and the usage you pay for are counted in tokens.'
+definition: 'The unit of text a model reads and writes. A tokenizer splits text into tokens, usually whole words, parts of words, or punctuation. Context length, max_tokens, and billed usage are all counted in tokens.'
