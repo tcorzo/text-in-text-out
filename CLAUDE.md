@@ -22,6 +22,8 @@ The book builds vocabulary one term at a time. A chapter introduces a term with 
 
 To point at another chapter, use `<ChapterLink id="part-1-primitives/tokens-and-context" />` (`import ChapterLink from '~/components/ChapterLink.astro';`). It shows the chapter's own title, renders as plain text while that chapter is a draft, and fails the build if the id doesn't exist.
 
+To point at a section of the same chapter, use `<SectionLink id="calling-the-model" />` (`import SectionLink from '~/components/SectionLink.astro';`). The id is the heading's slug. It shows the heading's current text, and `link={false}` prints the text without a link, for prose that names a section. An id with no matching heading fails the build, so renaming a heading points you at every reference to fix. Link to a spot that isn't a heading with a `<span id="..." />` and a plain `[text](#id)` link.
+
 To introduce a term, wrap it with `<Define term="id">word</Define>` (`import Define from '~/components/Define.astro';`) in the sentence that defines it, and add `src/content/glossary/<id>.yaml` with its `definition` (inline Markdown, reference style). A definition covers the whole concept as the book uses it anywhere, not only what its defining chapter has taught so far. When a later chapter adds to a concept (the `system` role, say), update that term's definition too. Italics are plain emphasis, not a definition. In later chapters the first mention of each term is marked automatically. Set `markMentions: false` on a term too central to underline ("model"), and list `skip` phrases where a form means something else ("error message").
 
 ## UI
@@ -35,6 +37,8 @@ Build UI from Starlight's built-in components first (https://starlight.astro.bui
 | Starlight components, then plugins, then hand-rolled HTML | `src/ui-rules.test.ts` (`bun test src`, also in CI) flags raw markup that has a Starlight equivalent, plus any `<style>` without a `ui-exception` comment (reason and expiry date) or with an expired one |
 | Refer to other chapters with `<ChapterLink>`, never by name in prose or with a hand-written link | `src/ui-rules.test.ts` flags "chapter on/about" and relative or `part-` Markdown links. `resolveChapterLink` fails the build on an unknown id |
 | Introduce a term with its image once, then use only the term | Review only. A judgment call that no check can make |
+| Refer to sections with `<SectionLink>`, never by a hand-written `#heading` link or by name in prose | `src/ui-rules.test.ts` flags `](#slug)` links to a heading, `#` links to no heading or `id`, and a heading's text in prose (drafts included). `resolveSectionLink` fails the build on an unknown id |
+| Internal links and `#` hashes on published pages resolve | `starlight-links-validator` fails `bun run build` |
 | Library references point at real chapters and entries | `loadLibrary()` in `src/lib/data.ts` fails the build |
 | Every `<Define>` has a glossary file, each term is defined once, and every glossary file is defined in some chapter | `loadGlossary()` in `src/lib/data.ts` fails the build |
 | Tags are kebab-case | Zod schema in `src/content.config.ts` |

@@ -112,3 +112,13 @@ export function resolveChapterLink(
 	const hidden = env.prod && chapter.data.draft === true;
 	return { title: chapter.data.title, href: hidden ? null : withBase(env.base, `/${id}/`) };
 }
+
+/** The current text of the heading `id` on page `page`. Unknown ids fail the build. */
+export function resolveSectionLink(id: string, headings: Array<{ slug: string; text: string }>, page: string): string {
+	const heading = headings.find((h) => h.slug === id);
+	if (!heading) {
+		const known = headings.map((h) => h.slug).join(', ') || 'none';
+		throw new Error(`SectionLink: no heading with id "${id}" in ${page} (headings: ${known})`);
+	}
+	return heading.text;
+}

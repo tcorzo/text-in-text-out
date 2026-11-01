@@ -48,6 +48,31 @@ describe('UI rule: Starlight components before plugins before hand-rolled HTML',
 		expect(checkUi([{ path: 'c.mdx', content: ok }], TODAY).errors).toEqual([]);
 	});
 
+	// The real lines from what-is-a-model.mdx when the section was "Calling it", and after its rename.
+	test('flags a section linked by hand, named in prose, or linked after a rename', () => {
+		const before = [
+			'## Calling it',
+			'<span id="the-response" />The response is JSON.',
+			'Here is the loop producing the reply from [Calling it](#calling-it).',
+			'This loop explains two fields from [the response](#the-response) in Calling it.',
+		];
+		const errors = checkUi([{ path: 'a.mdx', content: before.join('\n') }], TODAY).errors;
+		expect(errors).toHaveLength(2);
+		expect(errors[0]).toContain('a.mdx:3: hand-written link to section #calling-it');
+		expect(errors[1]).toContain('a.mdx:4: section "Calling it" named in prose');
+		const renamed = ['## Calling the model', ...before.slice(1)].join('\n');
+		expect(checkUi([{ path: 'b.mdx', content: renamed }], TODAY).errors[0]).toContain('no heading or id="calling-it"');
+		const ok = [
+			'## Calling the model',
+			'```md',
+			'[Calling it](#calling-it)',
+			'```',
+			'From <SectionLink id="calling-the-model" />, see [the response](#the-response).',
+			'<span id="the-response" />',
+		];
+		expect(checkUi([{ path: 'c.mdx', content: ok.join('\n') }], TODAY).errors).toEqual([]);
+	});
+
 	test('accepts a <style> with a live exception; rejects an expired one', () => {
 		const ok = '<style>\n\t/* ui-exception: layout gap; expires: 2999-01-01 */\n</style>';
 		const old = '<style>\n\t/* ui-exception: layout gap; expires: 2000-01-01 */\n</style>';

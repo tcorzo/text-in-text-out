@@ -7,6 +7,7 @@ import {
 	itemsForChapter,
 	pruneEmptyGroups,
 	resolveChapterLink,
+	resolveSectionLink,
 	publishedChapters,
 	withBase,
 	type Item,
@@ -124,4 +125,12 @@ test('dropLink removes a top-level link by href and keeps the rest', () => {
 		{ type: 'link' as const, label: 'Glossary', href: '/ai-resources/glossary/' },
 	];
 	expect(dropLink(sidebar, '/ai-resources/glossary/').map((e) => e.label)).toEqual(['Library']);
+});
+
+test('resolveSectionLink returns the heading text for its slug and fails on a stale slug', () => {
+	const headings = [{ slug: 'calling-the-model', text: 'Calling the model' }];
+	expect(resolveSectionLink('calling-the-model', headings, 'part-1-primitives/what-is-a-model')).toBe('Calling the model');
+	expect(() => resolveSectionLink('calling-it', headings, 'part-1-primitives/what-is-a-model')).toThrow(
+		'SectionLink: no heading with id "calling-it" in part-1-primitives/what-is-a-model (headings: calling-the-model)',
+	);
 });
