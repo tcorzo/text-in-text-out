@@ -1,0 +1,9 @@
+title: Compaction
+url: https://platform.claude.com/docs/en/build-with-claude/compaction
+type: docs
+creator: Anthropic
+summary: What compaction does, how compaction on demand and compaction at a token threshold differ, and where each is documented.
+tags: [context-window, context-engineering, claude-api]
+chapters: [part-1-primitives/context-window, part-3-building-and-judging/context-engineering]
+related: [context-windows, context-editing, effective-context-engineering]
+added: 2026-10-31

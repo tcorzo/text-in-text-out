@@ -15,7 +15,7 @@ For a list of links, run the steps per link, then do step 5 once more across the
 
 2. **Choose the canonical URL**: the public page that explains the thing. When the link is a dashboard, pricing page, app screen, playground anchor or tracking fragment, go to that product's home or launch page. When it pins a version (a model version on a gateway), check whether a newer version exists. If one does, make the entry about the family, point `url` at the maker's launch post or home page, and keep the pinned page in `links`. Done when `url` loads and would still make sense in a year.
 
-3. **Classify `type`.** A model release is `model` even when the source is a blog post; a GitHub project is `repo`; a hosted product is `tool`.
+3. **Classify `type`.** A model release is `model` even when the source is a blog post; a GitHub project is `repo`; a hosted product is `tool`. A page from a product's documentation (a guide or reference, like `platform.claude.com/docs/...`) is `docs`; an essay or blog post with a byline and a date is `article`.
 
 4. **Harvest secondary links** from the page's body: weights, docs, source repo, API or gateway page, playground, benchmark, eval or demo. Give each a short `label` and confirm it loads. Done when every outbound link in the body is either in `links` or judged irrelevant.
 

@@ -6,5 +6,5 @@ summary: How to design rigorous, useful evals for AI agents across different arc
 published: 2026-01-09
 tags: [evals, graders]
 chapters: [part-3-building-and-judging/evals]
-related: [langfuse, opik]
+related: [langfuse, opik, effective-context-engineering]
 added: 2026-10-31

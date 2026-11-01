@@ -1,0 +1,9 @@
+title: Context windows
+url: https://platform.claude.com/docs/en/build-with-claude/context-windows
+type: docs
+creator: Anthropic
+summary: How the context window works, how thinking and tool use count toward it, and how to manage context as conversations grow.
+tags: [context-window, claude-api]
+chapters: [part-1-primitives/context-window]
+related: [effective-context-engineering, claude-models-overview, compaction, context-editing, prompt-caching, token-counting]
+added: 2026-10-31

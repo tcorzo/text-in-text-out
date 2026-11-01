@@ -1,0 +1,9 @@
+title: Token counting
+url: https://platform.claude.com/docs/en/build-with-claude/token-counting
+type: docs
+creator: Anthropic
+summary: Counting the tokens in a message before sending it, to manage rate limits and cost and to fit prompts to a target length.
+tags: [context-window, claude-api]
+chapters: [part-1-primitives/context-window]
+related: [context-windows]
+added: 2026-10-31

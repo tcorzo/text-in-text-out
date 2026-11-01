@@ -1,0 +1,9 @@
+title: Context editing
+url: https://platform.claude.com/docs/en/build-with-claude/context-editing
+type: docs
+creator: Anthropic
+summary: Clearing old tool results and thinking blocks automatically as a conversation's context grows.
+tags: [context-window, context-engineering, claude-api]
+chapters: [part-1-primitives/context-window, part-3-building-and-judging/context-engineering]
+related: [context-windows, compaction]
+added: 2026-10-31

@@ -1,0 +1,10 @@
+title: Effective context engineering for AI agents
+url: https://www.anthropic.com/research/effective-context-engineering-for-ai-agents
+type: article
+creator: Prithvi Rajasekaran, Ethan Dixon, Carly Ryan, Jeremy Hadfield (Anthropic)
+summary: Strategies for curating and managing the context an AI agent works with, treating context as a finite resource.
+published: 2025-09-29
+tags: [context-engineering, context-window, agents]
+chapters: [part-1-primitives/context-window, part-3-building-and-judging/context-engineering]
+related: [context-windows, compaction, building-effective-agents, demystifying-evals]
+added: 2026-10-31

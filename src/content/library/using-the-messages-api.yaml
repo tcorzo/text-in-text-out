@@ -1,0 +1,9 @@
+title: Using the Messages API
+url: https://platform.claude.com/docs/en/build-with-claude/working-with-messages
+type: docs
+creator: Anthropic
+summary: Practical patterns and examples for the Messages API, including multi-turn conversations and system messages.
+tags: [claude-api]
+chapters: [part-1-primitives/what-is-a-model, part-1-primitives/context-window]
+related: [prompt-caching]
+added: 2026-10-31

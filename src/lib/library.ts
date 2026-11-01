@@ -9,6 +9,7 @@ export type Item = {
 
 export const TYPE_ORDER = [
 	'article',
+	'docs',
 	'talk',
 	'interview',
 	'paper',
@@ -21,6 +22,7 @@ export const TYPE_ORDER = [
 
 export const TYPE_LABELS: Record<string, string> = {
 	article: 'Articles',
+	docs: 'Documentation',
 	talk: 'Talks',
 	interview: 'Interviews',
 	paper: 'Papers',
@@ -88,6 +90,7 @@ export function dropLink<T extends SidebarLike & { href?: string }>(entries: T[]
 /** Starlight built-in icon per library type. */
 export const TYPE_ICONS: Record<string, string> = {
 	article: 'document',
+	docs: 'information',
 	talk: 'comment-alt',
 	interview: 'comment',
 	paper: 'open-book',

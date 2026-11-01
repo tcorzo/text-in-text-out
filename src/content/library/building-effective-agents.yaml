@@ -6,5 +6,5 @@ summary: Practical guidance on building reliable agents, from simple composable 
 published: 2024-12-19
 tags: [agents, patterns, workflows]
 chapters: [part-2-model-to-agent/agent-loop, part-4-in-practice/real-world-patterns]
-related: [12-factor-agents]
+related: [12-factor-agents, effective-context-engineering]
 added: 2026-10-31

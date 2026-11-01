@@ -1,0 +1,9 @@
+title: Prompt caching
+url: https://platform.claude.com/docs/en/build-with-claude/prompt-caching
+type: docs
+creator: Anthropic
+summary: Caching prompt prefixes to cut cost and latency, with automatic caching or explicit breakpoints.
+tags: [context-window, claude-api]
+chapters: [part-1-primitives/context-window]
+related: [context-windows, using-the-messages-api]
+added: 2026-10-31

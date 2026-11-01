@@ -1,0 +1,9 @@
+title: Models overview
+url: https://platform.claude.com/docs/en/models/overview
+type: docs
+creator: Anthropic
+summary: The Claude models available today, compared on context window size, output limits, and pricing.
+tags: [claude-api]
+chapters: [part-1-primitives/what-is-a-model, part-1-primitives/context-window]
+related: [context-windows]
+added: 2026-10-31
