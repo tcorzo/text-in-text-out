@@ -19,6 +19,8 @@ const json = JSON.stringify(byId).replace(/</g, '\\u003c');
 <script type="application/json" id="glossary-terms" set:html={json} />
 
 <script>
+	import { placePopover } from '~/lib/popover';
+
 	const popover = document.getElementById('glossary-popover')!;
 	const text = popover.querySelector('p')!;
 	const button = popover.querySelector('a')!;
@@ -42,10 +44,19 @@ const json = JSON.stringify(byId).replace(/</g, '\\u003c');
 		button.href = mention.href;
 		mention.setAttribute('aria-describedby', 'glossary-popover');
 		popover.hidden = false;
-		const rect = mention.getBoundingClientRect();
-		const left = Math.min(Math.max(8, rect.left), innerWidth - popover.offsetWidth - 8);
+		place();
+	}
+
+	/** Keeps the popover next to its mention, including while the page scrolls. */
+	function place() {
+		if (!current) return;
+		const { top, left } = placePopover(
+			current.getBoundingClientRect(),
+			{ width: popover.offsetWidth, height: popover.offsetHeight },
+			{ width: innerWidth, height: innerHeight },
+		);
+		popover.style.top = `${top}px`;
 		popover.style.left = `${left}px`;
-		popover.style.top = `${rect.bottom + 6}px`;
 	}
 
 	function hide() {
@@ -67,7 +78,8 @@ const json = JSON.stringify(byId).replace(/</g, '\\u003c');
 		if (m) show(m);
 	});
 	document.addEventListener('focusout', (e) => {
-		if (mentionOf(e.target) && !popover.contains(e.relatedTarget as Node | null)) hide();
+		// After a tap, only a tap outside or Escape closes it: tapping the text moves focus away too.
+		if (!tapped && mentionOf(e.target) && !popover.contains(e.relatedTarget as Node | null)) hide();
 	});
 	document.addEventListener('click', (e) => {
 		const m = mentionOf(e.target);
@@ -82,7 +94,8 @@ const json = JSON.stringify(byId).replace(/</g, '\\u003c');
 	document.addEventListener('keydown', (e) => {
 		if (e.key === 'Escape') hide();
 	});
-	addEventListener('scroll', hide, { passive: true });
+	addEventListener('scroll', place, { passive: true });
+	addEventListener('resize', place);
 </script>
 
 <style is:global>
