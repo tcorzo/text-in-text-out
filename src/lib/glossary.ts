@@ -2,6 +2,7 @@
 // A term's home is the chapter where its <Define term="..."> sits; nothing else records it.
 import { marked } from 'marked';
 import { draftRanges, inDraft } from './sections';
+import { openExternalInNewTab } from './external-links';
 
 export type TermData = {
 	term: string;
@@ -103,5 +104,5 @@ export function mentionableIn(
 
 /** A definition's inline Markdown as HTML: code, emphasis, and links, with no wrapping <p>. */
 export function renderDefinition(markdown: string): string {
-	return marked.parseInline(markdown, { async: false });
+	return openExternalInNewTab(marked.parseInline(markdown, { async: false }));
 }

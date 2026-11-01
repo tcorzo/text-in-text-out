@@ -3,6 +3,8 @@
 import type { CollectionEntry } from 'astro:content';
 import { Badge, Card, LinkButton } from '@astrojs/starlight/components';
 import { publishedChapters, TYPE_ICONS, withBase } from '../lib/library';
+import { brandIconFor, brandSvg } from '../lib/site-icons';
+import { NEW_TAB } from '../lib/external-links';
 
 interface Props {
 	item: CollectionEntry<'library'>;
@@ -15,11 +17,13 @@ const { data } = item;
 const base = import.meta.env.BASE_URL;
 const cited = publishedChapters(data.chapters, published);
 const date = data.published?.toISOString().slice(0, 10);
+const brand = brandIconFor(data.url);
 ---
 
 <div class="library-item" id={`item-${item.id}`}>
 	<Card title={data.title} icon={TYPE_ICONS[data.type] as any}>
 		<p class="meta">
+			{brand && <Fragment set:html={brandSvg(brand, 'site-icon')} />}
 			{data.creator}{date && <> · <time datetime={date}>{date}</time></>}
 		</p>
 		<p>{data.summary}</p>
@@ -49,10 +53,10 @@ const date = data.published?.toISOString().slice(0, 10);
 			)
 		}
 		<div class="actions">
-			<LinkButton href={data.url} variant="secondary" icon="external">Open</LinkButton>
+			<LinkButton href={data.url} variant="secondary" icon="external" {...NEW_TAB}>Open</LinkButton>
 			{
 				data.links.map((l) => (
-					<LinkButton href={l.url} variant="minimal" icon="external">
+					<LinkButton href={l.url} variant="minimal" icon="external" {...NEW_TAB}>
 						{l.label}
 					</LinkButton>
 				))
@@ -62,9 +66,26 @@ const date = data.published?.toISOString().slice(0, 10);
 </div>
 
 <style>
-	/* ui-exception: muted meta line, linked Badges without underline, row layout for LinkButtons, with no Starlight equivalent; expires: 2027-01-31 */
+	/* ui-exception: muted meta line with the site's brand icon, linked Badges without underline, row layout for LinkButtons, with no Starlight equivalent; expires: 2027-01-31 */
 	.library-item {
 		display: grid;
+	}
+	/* The site's icon before the creator: muted, in its brand color on hover. */
+	.library-item :global(.site-icon) {
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+		margin-inline-end: 0.4em;
+		vertical-align: -0.125em;
+		fill: currentColor;
+		color: var(--sl-color-gray-3);
+		transition: color 0.15s;
+	}
+	.library-item:hover :global(.site-icon) {
+		color: var(--hover-dark);
+	}
+	:global(:root[data-theme='light']) .library-item:hover :global(.site-icon) {
+		color: var(--hover-light);
 	}
 	.meta {
 		font-size: var(--sl-text-sm);

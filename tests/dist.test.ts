@@ -54,6 +54,17 @@ const PART_LABELS: Record<string, string> = {
 };
 
 describe('production build', () => {
+	test('every external link in page content opens in a new tab', () => {
+		const offenders = pages.flatMap(({ path, html }) => {
+			const main = html.match(/<main\b[\s\S]*<\/main>/)?.[0] ?? '';
+			return [...main.matchAll(/<a\b[^>]*\bhref="https?:\/\/[^"]*"[^>]*>/g)]
+				.map((m) => m[0])
+				.filter((tag) => !/\btarget="_blank"/.test(tag) || !/\brel="[^"]*noopener/.test(tag))
+				.map((tag) => `${path}: ${tag}`);
+		});
+		expect(offenders).toEqual([]);
+	});
+
 	test('every root-relative link on every page carries the /ai-resources base', () => {
 		const offenders = pages.flatMap(({ path, html }) =>
 			[...html.matchAll(/href="(\/[^"]*)"/g)]

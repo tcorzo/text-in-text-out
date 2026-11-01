@@ -1,0 +1,22 @@
+---
+// A Starlight LinkCard for one library entry: the site's icon before the title, and a
+// "creator · site" line under the summary. LinkCard sets its title and description as
+// HTML, so the icon slot is rendered to a string and the entry's text is escaped.
+import { LinkCard } from '@astrojs/starlight/components';
+import type { CollectionEntry } from 'astro:content';
+import { escapeHtml, siteOf } from '../lib/site-icons';
+import { NEW_TAB } from '../lib/external-links';
+
+interface Props {
+	item: CollectionEntry<'library'>;
+}
+
+const { data } = Astro.props.item;
+const icon = await Astro.slots.render('icon');
+const title = `<span class="site-icon">${icon}</span>${escapeHtml(data.title)}`;
+const description =
+	`${escapeHtml(data.summary)}` +
+	`<span class="entry-meta">${escapeHtml(data.creator)} · ${escapeHtml(siteOf(data.url))}</span>`;
+---
+
+<LinkCard title={title} description={description} href={data.url} {...NEW_TAB} />
