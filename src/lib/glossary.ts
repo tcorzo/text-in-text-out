@@ -1,6 +1,7 @@
 // Pure helpers for the glossary. No `astro:content` import, so `bun test` can run them.
 // A term's home is the chapter where its <Define term="..."> sits; nothing else records it.
 import { marked } from 'marked';
+import { draftRanges, inDraft } from './sections';
 
 export type TermData = {
 	term: string;
@@ -10,17 +11,26 @@ export type TermData = {
 	markMentions: boolean;
 };
 export type Term = { id: string; data: TermData };
-/** One <Define term="..."> in a chapter body. `index` is its character offset in the body. */
-export type DefineSite = { term: string; chapter: string; index: number };
+/**
+ * One <Define term="..."> in a chapter body. `index` is its character offset in the body.
+ * `draft` is true inside a <Draft> block, which the published site leaves out.
+ */
+export type DefineSite = { term: string; chapter: string; index: number; draft?: boolean };
 export type Mentionable = { id: string; forms: string[]; skip: string[] };
 export type GlossaryGroup = { chapter: string; terms: Array<{ term: Term; site: DefineSite }> };
 
 const DEFINE = /<Define\s+term="([^"]+)"/g;
 
 export function findDefines(chapters: Array<{ id: string; body: string }>): DefineSite[] {
-	return chapters.flatMap(({ id, body }) =>
-		[...body.matchAll(DEFINE)].map((m) => ({ term: m[1], chapter: id, index: m.index ?? 0 })),
-	);
+	return chapters.flatMap(({ id, body }) => {
+		const drafts = draftRanges(body);
+		return [...body.matchAll(DEFINE)].map((m) => ({
+			term: m[1],
+			chapter: id,
+			index: m.index,
+			draft: inDraft(drafts, m.index),
+		}));
+	});
 }
 
 /** Every way the glossary and the chapters disagree, one message per problem. */

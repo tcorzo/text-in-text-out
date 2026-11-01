@@ -1,0 +1,17 @@
+---
+// A section not ready to publish: <Draft>## Heading …</Draft>
+// Shows in `bun dev` under a caution label. Renders nothing on the published site, where
+// src/routeData.ts also drops its headings from the outline and loadGlossary() drops its terms.
+import { Aside } from '@astrojs/starlight/components';
+---
+
+{
+	!import.meta.env.PROD && (
+		<>
+			<Aside type="caution" title="Draft">
+				Not on the public site. Remove the surrounding <code>&lt;Draft&gt;</code> to publish this part.
+			</Aside>
+			<slot />
+		</>
+	)
+}

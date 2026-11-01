@@ -3,6 +3,8 @@
 import { describe, expect, test } from 'bun:test';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { findDefines } from '../src/lib/glossary';
+import { draftHeadingSlugs } from '../src/lib/sections';
 
 const ROOT = join(import.meta.dir, '..');
 const DIST = join(ROOT, 'dist');
@@ -32,16 +34,17 @@ const entries = walk(LIBRARY, '.yaml').map((f) => Bun.YAML.parse(readFileSync(f,
 });
 const cited = new Set(entries.flatMap((e) => e.chapters ?? []));
 
-// Glossary terms: published when the chapter holding their <Define term="id"> isn't a draft.
+// Glossary terms: published when their <Define term="id"> sits in a published chapter, outside a <Draft> block.
 const GLOSSARY = join(ROOT, 'src/content/glossary');
 const termIds = walk(GLOSSARY, '.yaml').map((f) => relative(GLOSSARY, f).replace(/\.yaml$/, ''));
-const definedIn = new Map(
-	chapters.flatMap((c) =>
-		[...readFileSync(join(DOCS, `${c.id}.mdx`), 'utf8').matchAll(/<Define\s+term="([^"]+)"/g)].map((m) => [m[1], c.id]),
-	),
-);
-const publishedTerms = termIds.filter((id) => publishedIds.includes(definedIn.get(id) ?? ''));
-const draftTerms = termIds.filter((id) => drafts.includes(definedIn.get(id) ?? ''));
+const bodies = chapters.map((c) => ({ id: c.id, body: readFileSync(join(DOCS, `${c.id}.mdx`), 'utf8') }));
+const sites = new Map(findDefines(bodies).map((s) => [s.term, s]));
+const isPublished = (id: string) => {
+	const site = sites.get(id);
+	return site !== undefined && publishedIds.includes(site.chapter) && !site.draft;
+};
+const publishedTerms = termIds.filter(isPublished);
+const draftTerms = termIds.filter((id) => !isPublished(id));
 
 const PART_LABELS: Record<string, string> = {
 	'part-1-primitives': 'Part I: Primitives',
@@ -78,6 +81,17 @@ describe('production build', () => {
 		const withBlock = pages.filter((p) => p.html.includes('id="further-reading"')).map((p) => p.path).sort();
 		const expected = publishedIds.filter((id) => cited.has(id)).map((id) => `${id}/index.html`).sort();
 		expect(withBlock).toEqual(expected);
+	});
+
+	test('<Draft> sections stay off published chapters, outline included', () => {
+		const leaks = bodies
+			.filter((c) => publishedIds.includes(c.id))
+			.flatMap((c) => {
+				const html = readFileSync(join(DIST, c.id, 'index.html'), 'utf8');
+				const slugs = [...draftHeadingSlugs(c.body)].filter((slug) => html.includes(`#${slug}"`) || html.includes(`id="${slug}"`));
+				return [...slugs, ...(html.includes('Not on the public site') ? ['the Draft label'] : [])].map((x) => `${c.id}: ${x}`);
+			});
+		expect(leaks).toEqual([]);
 	});
 
 	test('glossary lists exactly the terms introduced in published chapters', () => {

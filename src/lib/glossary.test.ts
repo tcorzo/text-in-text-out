@@ -28,6 +28,16 @@ test('findDefines finds every <Define term> with its chapter and offset', () => 
 	expect(sites[0].index).toBeLessThan(sites[1].index);
 });
 
+test('findDefines marks a <Define> inside a <Draft> block', () => {
+	const sites = findDefines([
+		{ id: 'part-1-primitives/a', body: '<Define term="model">m</Define>\n<Draft>\n<Define term="hallucination">h</Define>\n</Draft>' },
+	]);
+	expect(sites.map((s) => [s.term, s.draft])).toEqual([
+		['model', false],
+		['hallucination', true],
+	]);
+});
+
 test('checkGlossary reports unknown, duplicate, and undefined terms', () => {
 	const errors = checkGlossary(
 		['model', 'token', 'role'],

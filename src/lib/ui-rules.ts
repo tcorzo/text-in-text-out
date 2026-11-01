@@ -1,6 +1,6 @@
 // UI rule: Starlight built-in components first, then Starlight plugins, and hand-rolled HTML/CSS last.
 // Checked by src/ui-rules.test.ts, which runs in `bun test src` locally and in CI.
-import GithubSlugger from 'github-slugger';
+import { headingsOf } from './sections';
 
 export type SourceFile = { path: string; content: string };
 
@@ -59,8 +59,7 @@ const SECTION_LINK = '<SectionLink id="…" /> from ~/components/SectionLink.ast
  */
 function checkSectionRefs(path: string, lines: string[]): string[] {
 	const errors: string[] = [];
-	const slugger = new GithubSlugger();
-	const headings: Array<{ slug: string; text: string }> = [];
+	const headings = headingsOf(lines.join('\n'));
 	const ids = new Set<string>();
 	let fenced = false;
 	const prose = lines.map((line) => {
@@ -68,11 +67,6 @@ function checkSectionRefs(path: string, lines: string[]): string[] {
 		return fenced || /^\s*(```|~~~)/.test(line) ? '' : line;
 	});
 	for (const line of prose) {
-		const h = /^#{2,6}\s+(.+?)\s*$/.exec(line);
-		if (h) {
-			const text = h[1].replace(/[_*`]/g, '');
-			headings.push({ slug: slugger.slug(text), text });
-		}
 		for (const m of line.matchAll(/\bid="([^"]+)"/g)) ids.add(m[1]);
 	}
 	const slugs = new Set(headings.map((h) => h.slug));

@@ -30,5 +30,7 @@ export async function loadGlossary() {
 	const order = readingOrder(docs);
 	const published = new Set(docs.filter((d) => !(import.meta.env.PROD && d.data.draft)).map((d) => d.id));
 	const titles = new Map(docs.map((d) => [d.id, d.data.title]));
-	return { terms, sites, order, published, titles };
+	// A term defined inside a <Draft> block is unpublished until the block is: no glossary entry, no marked mentions.
+	const visible = import.meta.env.PROD ? sites.filter((s) => !s.draft) : sites;
+	return { terms, sites: visible, order, published, titles };
 }
