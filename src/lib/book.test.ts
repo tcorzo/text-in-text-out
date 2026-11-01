@@ -10,7 +10,7 @@ const docs = [
 	doc('part-2-model-to-agent/tools', 1, true),
 ];
 const chapters = chaptersOf(docs);
-const link = (id: string) => ({ type: 'link' as const, label: id, href: `/ai-resources/${id}/`, isCurrent: false, attrs: {} });
+const link = (id: string) => ({ type: 'link' as const, label: id, href: `/text-in-text-out/${id}/`, isCurrent: false, attrs: {} });
 const group = (label: string, entries: ReturnType<typeof link>[]) => ({ type: 'group' as const, label, entries, collapsed: false });
 
 describe('tableOfContents', () => {
@@ -29,11 +29,11 @@ describe('tableOfContents', () => {
 describe('withDraftChapters', () => {
 	test('in production, drafts link to the home page contents with a "Coming soon" badge', () => {
 		const sidebar = [group('Part I: Primitives', [link('part-1-primitives/what-is-a-model')]), group('Part II: From model to agent', [])];
-		const out = withDraftChapters(sidebar, chapters, { prod: true, base: '/ai-resources' });
+		const out = withDraftChapters(sidebar, chapters, { prod: true, base: '/text-in-text-out' });
 		expect(out[0].entries.map((e) => [e.label, e.href, e.badge?.text])).toEqual([
-			['part-1-primitives/what-is-a-model', '/ai-resources/part-1-primitives/what-is-a-model/', undefined],
-			['context-window', `/ai-resources/#${contentsAnchor('part-1-primitives/context-window')}`, 'Coming soon'],
-			['prompting', `/ai-resources/#${contentsAnchor('part-1-primitives/prompting')}`, 'Coming soon'],
+			['part-1-primitives/what-is-a-model', '/text-in-text-out/part-1-primitives/what-is-a-model/', undefined],
+			['context-window', `/text-in-text-out/#${contentsAnchor('part-1-primitives/context-window')}`, 'Coming soon'],
+			['prompting', `/text-in-text-out/#${contentsAnchor('part-1-primitives/prompting')}`, 'Coming soon'],
 		]);
 		expect(out[1].entries.map((e) => e.badge?.text)).toEqual(['Coming soon']);
 	});
@@ -45,15 +45,15 @@ describe('withDraftChapters', () => {
 				link('part-1-primitives/prompting'),
 			]),
 		];
-		const out = withDraftChapters(sidebar, chapters, { prod: false, base: '/ai-resources' });
+		const out = withDraftChapters(sidebar, chapters, { prod: false, base: '/text-in-text-out' });
 		expect(out[0].entries.map((e) => [e.href, e.badge?.text])).toEqual([
-			['/ai-resources/part-1-primitives/what-is-a-model/', undefined],
-			['/ai-resources/part-1-primitives/context-window/', 'Draft'],
-			['/ai-resources/part-1-primitives/prompting/', 'Draft'],
+			['/text-in-text-out/part-1-primitives/what-is-a-model/', undefined],
+			['/text-in-text-out/part-1-primitives/context-window/', 'Draft'],
+			['/text-in-text-out/part-1-primitives/prompting/', 'Draft'],
 		]);
 	});
 	test('leaves other entries alone', () => {
 		const library = link('library');
-		expect(withDraftChapters([library], chapters, { prod: true, base: '/ai-resources' })).toEqual([library]);
+		expect(withDraftChapters([library], chapters, { prod: true, base: '/text-in-text-out' })).toEqual([library]);
 	});
 });

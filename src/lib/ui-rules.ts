@@ -15,7 +15,7 @@ const REPLACEMENTS: Array<{ pattern: RegExp; use: string }> = [
 	{ pattern: /[←→]\s*\w+<\/a>/, use: '<LinkButton icon="left-arrow"|"right-arrow"> from @astrojs/starlight/components' },
 	// Chapter references: named in prose, or linked by hand with a path that breaks on renames and drafts.
 	{ pattern: /\bchapter (?:on|about)\b/i, use: '<ChapterLink id="part-N-…/chapter" /> from ~/components/ChapterLink.astro' },
-	{ pattern: /\]\((?:\.\.?\/|\/(?:ai-resources\/)?part-)/, use: '<ChapterLink id="part-N-…/chapter" /> from ~/components/ChapterLink.astro' },
+	{ pattern: /\]\((?:\.\.?\/|\/(?:text-in-text-out\/)?part-)/, use: '<ChapterLink id="part-N-…/chapter" /> from ~/components/ChapterLink.astro' },
 ];
 
 /**

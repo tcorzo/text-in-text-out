@@ -41,7 +41,7 @@ describe('UI rule: Starlight components before plugins before hand-rolled HTML',
 	// The real line from what-is-a-model.mdx before <ChapterLink> existed.
 	test('flags a chapter named in plain text or linked by hand', () => {
 		const past = 'and `usage` counts every message again on every call. The chapter on tokens and the context window covers how long a conversation can get.';
-		const handLink = 'See [Tokens](../tokens-and-context/) and [Evals](/ai-resources/part-3-building-and-judging/evals/).';
+		const handLink = 'See [Tokens](../tokens-and-context/) and [Evals](/text-in-text-out/part-3-building-and-judging/evals/).';
 		const ok = '<ChapterLink id="part-1-primitives/tokens-and-context" /> covers it.';
 		expect(checkUi([{ path: 'a.mdx', content: past }], TODAY).errors[0]).toContain('<ChapterLink');
 		expect(checkUi([{ path: 'b.mdx', content: handLink }], TODAY).errors).toHaveLength(1);

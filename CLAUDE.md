@@ -14,7 +14,7 @@
 
 - Tool versions (bun, node) live in `mise.toml`, the one source CI (`jdx/mise-action`) and Orca's worktree setup (`orca.yaml`) both read. Bump a version there, never in the workflow.
 - Astro only *logs* broken content references. The real failure comes from `loadLibrary()` in `src/lib/data.ts`, so keep the library pages using it.
-- The site lives under `/ai-resources/`. In components, build internal links with `withBase(import.meta.env.BASE_URL, path)`. In frontmatter fields Starlight doesn't prefix (hero actions), use relative links.
+- The site lives under `/text-in-text-out/`. In components, build internal links with `withBase(import.meta.env.BASE_URL, path)`. In frontmatter fields Starlight doesn't prefix (hero actions), use relative links.
 - Diagrams are Mermaid fenced code blocks (`astro-mermaid`). Code examples are illustrative and never run.
 
 ## Writing chapters
@@ -47,7 +47,7 @@ Build UI from Starlight's built-in components first (https://starlight.astro.bui
 | Library references point at real chapters and entries | `loadLibrary()` in `src/lib/data.ts` fails the build |
 | Every `<Define>` has a glossary file, each term is defined once, and every glossary file is defined in some chapter | `loadGlossary()` in `src/lib/data.ts` fails the build |
 | Tags are kebab-case | Zod schema in `src/content.config.ts` |
-| Internal links carry the `/ai-resources` base | `tests/dist.test.ts` (`bun run test:dist`, also in CI) |
+| Internal links carry the `/text-in-text-out` base | `tests/dist.test.ts` (`bun run test:dist`, also in CI) |
 | Draft chapters and `<Draft>` sections stay off the public site | `tests/dist.test.ts` |
 
 ## Checks

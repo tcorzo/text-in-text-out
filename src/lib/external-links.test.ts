@@ -7,7 +7,7 @@ describe('isExternal', () => {
 		expect(isExternal('http://example.com')).toBe(true);
 	});
 	test('paths, hashes, and other schemes are not', () => {
-		expect(isExternal('/ai-resources/library/')).toBe(false);
+		expect(isExternal('/text-in-text-out/library/')).toBe(false);
 		expect(isExternal('#the-response')).toBe(false);
 		expect(isExternal('mailto:a@b.c')).toBe(false);
 	});
@@ -15,9 +15,9 @@ describe('isExternal', () => {
 
 describe('openExternalInNewTab', () => {
 	test('sets target and rel on external links only', () => {
-		const html = '<p><a href="https://example.com">out</a> and <a href="/ai-resources/x/">in</a></p>';
+		const html = '<p><a href="https://example.com">out</a> and <a href="/text-in-text-out/x/">in</a></p>';
 		expect(openExternalInNewTab(html)).toBe(
-			'<p><a href="https://example.com" target="_blank" rel="noopener noreferrer">out</a> and <a href="/ai-resources/x/">in</a></p>',
+			'<p><a href="https://example.com" target="_blank" rel="noopener noreferrer">out</a> and <a href="/text-in-text-out/x/">in</a></p>',
 		);
 	});
 	test('returns HTML without external links unchanged', () => {

@@ -20,8 +20,8 @@ const item = (id: string, over: Partial<Item['data']> = {}): Item => ({
 
 describe('withBase', () => {
 	test('joins base and path with a single slash', () => {
-		expect(withBase('/ai-resources', '/library/')).toBe('/ai-resources/library/');
-		expect(withBase('/ai-resources/', 'library/')).toBe('/ai-resources/library/');
+		expect(withBase('/text-in-text-out', '/library/')).toBe('/text-in-text-out/library/');
+		expect(withBase('/text-in-text-out/', 'library/')).toBe('/text-in-text-out/library/');
 	});
 	test('root base', () => {
 		expect(withBase('/', '/library/')).toBe('/library/');
@@ -103,15 +103,15 @@ describe('resolveChapterLink', () => {
 	const chapter = (draft: boolean) => ({ data: { title: 'Tokens and the context window', draft } });
 	const id = 'part-1-primitives/tokens-and-context';
 	test('links a published chapter by its title, under the base', () => {
-		expect(resolveChapterLink(id, chapter(false), { prod: true, base: '/ai-resources' })).toEqual({
+		expect(resolveChapterLink(id, chapter(false), { prod: true, base: '/text-in-text-out' })).toEqual({
 			title: 'Tokens and the context window',
-			href: '/ai-resources/part-1-primitives/tokens-and-context/',
+			href: '/text-in-text-out/part-1-primitives/tokens-and-context/',
 		});
 	});
 	test('a draft chapter is plain text in production and a link in dev', () => {
-		expect(resolveChapterLink(id, chapter(true), { prod: true, base: '/ai-resources' }).href).toBeNull();
-		expect(resolveChapterLink(id, chapter(true), { prod: false, base: '/ai-resources' }).href).toBe(
-			'/ai-resources/part-1-primitives/tokens-and-context/',
+		expect(resolveChapterLink(id, chapter(true), { prod: true, base: '/text-in-text-out' }).href).toBeNull();
+		expect(resolveChapterLink(id, chapter(true), { prod: false, base: '/text-in-text-out' }).href).toBe(
+			'/text-in-text-out/part-1-primitives/tokens-and-context/',
 		);
 	});
 	test('an unknown chapter fails the build with its id', () => {
@@ -121,10 +121,10 @@ describe('resolveChapterLink', () => {
 
 test('dropLink removes a top-level link by href and keeps the rest', () => {
 	const sidebar = [
-		{ type: 'link' as const, label: 'Library', href: '/ai-resources/library/' },
-		{ type: 'link' as const, label: 'Glossary', href: '/ai-resources/glossary/' },
+		{ type: 'link' as const, label: 'Library', href: '/text-in-text-out/library/' },
+		{ type: 'link' as const, label: 'Glossary', href: '/text-in-text-out/glossary/' },
 	];
-	expect(dropLink(sidebar, '/ai-resources/glossary/').map((e) => e.label)).toEqual(['Library']);
+	expect(dropLink(sidebar, '/text-in-text-out/glossary/').map((e) => e.label)).toEqual(['Library']);
 });
 
 test('resolveSectionLink returns the heading text for its slug and fails on a stale slug', () => {

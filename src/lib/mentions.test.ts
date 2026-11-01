@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 import { markMentions } from './mentions';
 
-const href = (id: string) => `/ai-resources/glossary/#${id}`;
+const href = (id: string) => `/text-in-text-out/glossary/#${id}`;
 const token = { id: 'token', forms: ['token', 'tokens'], skip: ['token budget'] };
 const streaming = { id: 'streaming', forms: ['streaming', 'streaming response'], skip: [] };
 
@@ -14,7 +14,7 @@ test('marks only the first mention, case-insensitively, keeping its text', () =>
 	const { html, marked } = markMentions('<p>Tokens are small. A token is short.</p>', [token], href);
 	expect(marked).toEqual(['token']);
 	expect(html).toContain(
-		'<a class="glossary-mention" href="/ai-resources/glossary/#token" data-term="token">Tokens</a> are small. A token is short.',
+		'<a class="glossary-mention" href="/text-in-text-out/glossary/#token" data-term="token">Tokens</a> are small. A token is short.',
 	);
 });
 

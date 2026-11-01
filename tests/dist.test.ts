@@ -59,12 +59,12 @@ describe('production build', () => {
 		const lineOf = (id: string) => home.match(new RegExp(`<li id="chapter-${id.replace('/', '-')}"[\\s\\S]*?</li>`))?.[0];
 		expect(chapters.filter((c) => !lineOf(c.id)).map((c) => c.id)).toEqual([]);
 		expect(drafts.filter((id) => !lineOf(id)!.includes('Coming soon')).map((id) => id)).toEqual([]);
-		expect(publishedIds.filter((id) => !lineOf(id)!.includes(`href="/ai-resources/${id}/"`))).toEqual([]);
+		expect(publishedIds.filter((id) => !lineOf(id)!.includes(`href="/text-in-text-out/${id}/"`))).toEqual([]);
 	});
 
 	test('the sidebar lists draft chapters as "Coming soon", linked to the home page contents', () => {
 		const sidebar = pages.find((p) => p.path === 'library/index.html')!.html.match(/<nav[^>]*aria-label="Main"[\s\S]*?<\/nav>/)?.[0] ?? '';
-		const missing = drafts.filter((id) => !sidebar.includes(`href="/ai-resources/#chapter-${id.replace('/', '-')}"`));
+		const missing = drafts.filter((id) => !sidebar.includes(`href="/text-in-text-out/#chapter-${id.replace('/', '-')}"`));
 		expect(missing).toEqual([]);
 		expect(sidebar).toContain('Coming soon');
 	});
@@ -80,11 +80,11 @@ describe('production build', () => {
 		expect(offenders).toEqual([]);
 	});
 
-	test('every root-relative link on every page carries the /ai-resources base', () => {
+	test('every root-relative link on every page carries the /text-in-text-out base', () => {
 		const offenders = pages.flatMap(({ path, html }) =>
 			[...html.matchAll(/href="(\/[^"]*)"/g)]
 				.map((m) => m[1])
-				.filter((href) => !href.startsWith('/ai-resources/'))
+				.filter((href) => !href.startsWith('/text-in-text-out/'))
 				.map((href) => `${path}: ${href}`),
 		);
 		expect(offenders).toEqual([]);
@@ -98,7 +98,7 @@ describe('production build', () => {
 	test('draft chapters are not built and nothing links to them', () => {
 		expect(drafts.filter((id) => pages.some((p) => p.path === `${id}/index.html`))).toEqual([]);
 		const offenders = pages.flatMap(({ path, html }) =>
-			drafts.filter((id) => html.includes(`href="/ai-resources/${id}/"`)).map((id) => `${path} → ${id}`),
+			drafts.filter((id) => html.includes(`href="/text-in-text-out/${id}/"`)).map((id) => `${path} → ${id}`),
 		);
 		expect(offenders).toEqual([]);
 	});
@@ -128,7 +128,7 @@ describe('production build', () => {
 
 	test('sidebar shows Glossary only when a term is published', () => {
 		const html = readFileSync(join(DIST, 'library/index.html'), 'utf8');
-		expect(html.includes('href="/ai-resources/glossary/"')).toBe(publishedTerms.length > 0);
+		expect(html.includes('href="/text-in-text-out/glossary/"')).toBe(publishedTerms.length > 0);
 	});
 
 	test('sidebar shows every part, including parts with only draft chapters', () => {

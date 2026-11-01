@@ -9,7 +9,7 @@ import starlightThemeRapide from 'starlight-theme-rapide';
 // Site address. Change both lines together if the site moves
 // (e.g. to a custom domain: set `site` to it and `base` to '/').
 const site = 'https://tcorzo.github.io';
-const base = '/ai-resources';
+const base = '/text-in-text-out';
 
 export default defineConfig({
 	site,
