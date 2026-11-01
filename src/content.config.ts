@@ -27,7 +27,26 @@ const library = defineCollection({
 	}),
 });
 
+// One file per term. The chapter that introduces a term is wherever its <Define> sits, never here.
+const glossary = defineCollection({
+	loader: glob({ pattern: '**/*.yaml', base: './src/content/glossary' }),
+	schema: z.object({
+		term: z.string(),
+		// Other ways the term appears in prose ("tokens" for "token").
+		forms: z.array(z.string()).default([]),
+		// One short sentence: the hover text and the glossary entry.
+		definition: z.string(),
+		// The image or comparison the chapter used ("a black box").
+		image: z.string().optional(),
+		// Phrases where a form means something else ("error message").
+		skip: z.array(z.string()).default([]),
+		// False for terms too central to underline on every page ("model").
+		markMentions: z.boolean().default(true),
+	}),
+});
+
 export const collections = {
 	docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
 	library,
+	glossary,
 };
