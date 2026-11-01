@@ -1,0 +1,4 @@
+term: message
+forms: [messages]
+definition: One piece of a conversation, with a role that says who it came from.
+skip: [error message, error messages]

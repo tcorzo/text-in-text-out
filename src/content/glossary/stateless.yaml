@@ -1,0 +1,2 @@
+term: stateless
+definition: Keeps nothing between calls. Every call starts from only the text in that request.

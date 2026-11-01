@@ -1,0 +1,16 @@
+---
+// Marks where a term is introduced: <Define term="stateless">stateless</Define>.
+// The glossary links back to this spot. An unknown term fails the build.
+import { getEntry } from 'astro:content';
+
+interface Props {
+	term: string;
+}
+
+const { term } = Astro.props;
+if (!(await getEntry('glossary', term))) {
+	throw new Error(`Define: no glossary file for "${term}" in src/content/glossary/`);
+}
+---
+
+<dfn id={`term-${term}`}><slot /></dfn>
