@@ -2,8 +2,8 @@
 
 ## Intent
 
-A public website, built from a public personal GitHub repo, where coworkers
-and teammates can learn how AI agents work and find good material on them:
+A public website, built from a public personal GitHub repo, where software
+engineers can learn how AI agents work and find good material on them:
 agents, harnesses, evals and related topics.
 
 It should **feel like a software engineering book**. You start from basic

@@ -18,6 +18,8 @@ A book about AI agents (models → agent loop → harnesses → evals), plus a l
 
 ## Writing chapters
 
+Before you draft or edit chapter prose, read `docs/voice.md`. It describes who the book is for, how it reads, and where Claude's drafts drift from the author's voice.
+
 The book builds vocabulary one term at a time. A chapter introduces a term with an image or comparison once ("a model is a black box"), and from then on uses only the term ("the model"), never the image. Later chapters reuse the terms earlier chapters defined.
 
 To point at another chapter, use `<ChapterLink id="part-1-primitives/tokens-and-context" />` (`import ChapterLink from '~/components/ChapterLink.astro';`). It shows the chapter's own title, renders as plain text while that chapter is a draft, and fails the build if the id doesn't exist.
