@@ -1,4 +1,4 @@
 term: message
 forms: [messages]
-definition: One piece of a conversation, with a role that says who it came from.
+definition: 'One piece of a conversation. A request carries a list of messages, and each one has a role that says who wrote it. To continue a conversation, your program adds the model''s reply and your next message to the list, then sends the whole list again.'
 skip: [error message, error messages]

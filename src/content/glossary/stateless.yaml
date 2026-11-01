@@ -1,2 +1,2 @@
 term: stateless
-definition: Keeps nothing between calls. Every call starts from only the text in that request.
+definition: 'Keeps nothing between calls. A model sees only the text in the current request, so it can''t remember anything you sent before. A chat seems to remember because the app sends the whole conversation again on every call.'

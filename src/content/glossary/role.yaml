@@ -1,4 +1,4 @@
 term: role
 forms: [roles]
-definition: 'Says who a message came from: "user" for your text, "assistant" for the model''s.'
+definition: 'Says who wrote a message. "user" marks text you send, and "assistant" marks text the model sent back. The roles let the model tell its own earlier replies apart from yours.'
 skip: [the role of]

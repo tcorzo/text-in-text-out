@@ -1,4 +1,4 @@
 term: model
 forms: [models]
-definition: A program that takes text and gives back text.
+definition: 'A program that takes text in and gives text back. Chat apps, coding agents, and other AI tools are all built on one: they choose what text to send and decide what to do with the reply. Claude Opus and GPT are models. ChatGPT and Claude are apps that use them.'
 markMentions: false
