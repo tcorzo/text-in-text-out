@@ -1,0 +1,3 @@
+term: non-determinism
+forms: [non-deterministic]
+definition: 'Variation in output across identical requests. Most APIs sample each token at random, weighted by its predicted probability, so the same input can produce different output. Lowering sampling parameters such as `temperature` reduces the variation, but most APIs do not guarantee identical output. A program built on a model is evaluated over many runs, not one.'

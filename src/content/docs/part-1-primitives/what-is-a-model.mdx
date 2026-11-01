@@ -1,6 +1,5 @@
 ---
 title: What is a model?
-draft: true
 sidebar:
   order: 1
 ---
@@ -9,6 +8,7 @@ import { Aside, Card, CardGrid, TabItem, Tabs } from '@astrojs/starlight/compone
 import ChapterLink from '~/components/ChapterLink.astro';
 import Define from '~/components/Define.astro';
 import NextTokenPlayer from '~/components/NextTokenPlayer';
+import Draft from '~/components/Draft.astro';
 import SectionLink from '~/components/SectionLink.astro';
 
 LLM? wtf is that?
@@ -202,6 +202,25 @@ This loop explains two fields from [the response](#the-response) in <SectionLink
 
 It also explains why chat apps show answers a few words at a time. Because the model produces its answer one token at a time, the API doesn't have to wait for the end. It can send each token as soon as the model produces it, and the app displays each one as it arrives. A response sent this way is called a <Define term="streaming">streaming</Define> response. You ask for one by adding `"stream": true` to the request.
 
-## What the model can't do
+<Draft>
 
-## The same call in Pydantic AI
+## What can the model do?
+
+A model is a function from text to text. Each card below follows from that, along with how you work with it.
+
+<CardGrid>
+	<Card title="It describes actions" icon="rocket">
+		The model outputs text, and some of that text can describe an action, like a web search. Your program reads the description and runs the action. <ChapterLink id="part-2-model-to-agent/tools" /> shows how.
+	</Card>
+	<Card title="It answers from its training data and your request" icon="open-book">
+		The training data ends at the model's <Define term="knowledge-cutoff">knowledge cutoff</Define> and never includes your files or today's date. To get answers from them, put them in the request, either directly or looked up from a knowledge base. <ChapterLink id="part-3-building-and-judging/context-engineering" /> covers what to include.
+	</Card>
+	<Card title="It outputs likely text" icon="warning">
+		Likely text is usually correct. When it isn't, the output is a fluent, wrong answer called a <Define term="hallucination">hallucination</Define>. A request that contains the facts the answer needs makes hallucinations less likely. Checking the output catches the rest, and <ChapterLink id="part-3-building-and-judging/evals" /> shows how.
+	</Card>
+	<Card title="Its output varies between runs" icon="random">
+		Most APIs pick each token at random, weighted by its probability, so the same request can return different text. This makes the model <Define term="non-determinism">non-deterministic</Define>. A lower `temperature`, where the API offers one, reduces the variation. Judge a program on many runs, not one.
+	</Card>
+</CardGrid>
+
+</Draft>

@@ -1,0 +1,3 @@
+term: knowledge cutoff
+forms: [knowledge cutoffs]
+definition: 'The date a model''s training data ends. The model has no information about events after that date unless the request supplies it. Providers publish the cutoff for each model.'
