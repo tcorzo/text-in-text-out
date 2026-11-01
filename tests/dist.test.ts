@@ -32,6 +32,17 @@ const entries = walk(LIBRARY, '.yaml').map((f) => Bun.YAML.parse(readFileSync(f,
 });
 const cited = new Set(entries.flatMap((e) => e.chapters ?? []));
 
+// Glossary terms: published when the chapter holding their <Define term="id"> isn't a draft.
+const GLOSSARY = join(ROOT, 'src/content/glossary');
+const termIds = walk(GLOSSARY, '.yaml').map((f) => relative(GLOSSARY, f).replace(/\.yaml$/, ''));
+const definedIn = new Map(
+	chapters.flatMap((c) =>
+		[...readFileSync(join(DOCS, `${c.id}.mdx`), 'utf8').matchAll(/<Define\s+term="([^"]+)"/g)].map((m) => [m[1], c.id]),
+	),
+);
+const publishedTerms = termIds.filter((id) => publishedIds.includes(definedIn.get(id) ?? ''));
+const draftTerms = termIds.filter((id) => drafts.includes(definedIn.get(id) ?? ''));
+
 const PART_LABELS: Record<string, string> = {
 	'part-1-primitives': 'Part I: Primitives',
 	'part-2-model-to-agent': 'Part II: From model to agent',
@@ -67,6 +78,17 @@ describe('production build', () => {
 		const withBlock = pages.filter((p) => p.html.includes('id="further-reading"')).map((p) => p.path).sort();
 		const expected = publishedIds.filter((id) => cited.has(id)).map((id) => `${id}/index.html`).sort();
 		expect(withBlock).toEqual(expected);
+	});
+
+	test('glossary lists exactly the terms introduced in published chapters', () => {
+		const html = readFileSync(join(DIST, 'glossary/index.html'), 'utf8');
+		expect(publishedTerms.filter((id) => !html.includes(`<dt id="${id}"`))).toEqual([]);
+		expect(draftTerms.filter((id) => html.includes(`<dt id="${id}"`))).toEqual([]);
+	});
+
+	test('sidebar shows Glossary only when a term is published', () => {
+		const html = readFileSync(join(DIST, 'library/index.html'), 'utf8');
+		expect(html.includes('href="/ai-resources/glossary/"')).toBe(publishedTerms.length > 0);
 	});
 
 	test('sidebar shows a part only when it has a published chapter', () => {

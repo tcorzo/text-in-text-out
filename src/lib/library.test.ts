@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import {
 	allTags,
+	dropLink,
 	findBrokenRefs,
 	groupByType,
 	itemsForChapter,
@@ -115,4 +116,12 @@ describe('resolveChapterLink', () => {
 	test('an unknown chapter fails the build with its id', () => {
 		expect(() => resolveChapterLink('part-9/nope', undefined, { prod: true, base: '/' })).toThrow('part-9/nope');
 	});
+});
+
+test('dropLink removes a top-level link by href and keeps the rest', () => {
+	const sidebar = [
+		{ type: 'link' as const, label: 'Library', href: '/ai-resources/library/' },
+		{ type: 'link' as const, label: 'Glossary', href: '/ai-resources/glossary/' },
+	];
+	expect(dropLink(sidebar, '/ai-resources/glossary/').map((e) => e.label)).toEqual(['Library']);
 });

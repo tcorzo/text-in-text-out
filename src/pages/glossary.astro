@@ -1,0 +1,39 @@
+---
+// Every published term, grouped by the chapter that introduces it, in reading order.
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { loadGlossary } from '../lib/data';
+import { groupByChapter } from '../lib/glossary';
+import { withBase } from '../lib/library';
+
+const { terms, sites, order, published, titles } = await loadGlossary();
+const groups = groupByChapter(terms, sites, order, published);
+const base = import.meta.env.BASE_URL;
+const slug = (chapter: string) => chapter.replace('/', '--');
+---
+
+<StarlightPage
+	frontmatter={{ title: 'Glossary', tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 2 } }}
+	headings={groups.map((g) => ({ depth: 2, slug: slug(g.chapter), text: titles.get(g.chapter) ?? g.chapter }))}
+>
+	{groups.length === 0 && <p>Terms appear here as chapters are published.</p>}
+	{
+		groups.map((g) => (
+			<section>
+				<h2 id={slug(g.chapter)}>{titles.get(g.chapter)}</h2>
+				<dl>
+					{g.terms.map(({ term }) => (
+						<>
+							<dt id={term.id}>{term.data.term}</dt>
+							<dd>{term.data.definition}</dd>
+							{term.data.image && <dd>Image: {term.data.image}</dd>}
+							<dd>
+								Introduced in{' '}
+								<a href={withBase(base, `/${g.chapter}/#term-${term.id}`)}>{titles.get(g.chapter)}</a>
+							</dd>
+						</>
+					))}
+				</dl>
+			</section>
+		))
+	}
+</StarlightPage>

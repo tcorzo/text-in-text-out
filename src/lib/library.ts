@@ -80,6 +80,11 @@ export function pruneEmptyGroups<T extends SidebarLike>(entries: T[]): T[] {
 	});
 }
 
+/** Removes a top-level sidebar link by its href (e.g. the glossary while no term is published). */
+export function dropLink<T extends SidebarLike & { href?: string }>(entries: T[], href: string): T[] {
+	return entries.filter((e) => !(e.type === 'link' && e.href === href));
+}
+
 /** Starlight built-in icon per library type. */
 export const TYPE_ICONS: Record<string, string> = {
 	article: 'document',

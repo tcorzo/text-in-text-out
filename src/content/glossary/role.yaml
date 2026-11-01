@@ -1,4 +1,4 @@
 term: role
 forms: [roles]
-definition: 'Says who a message came from: `user` for your text, `assistant` for the model''s.'
+definition: 'Says who a message came from: "user" for your text, "assistant" for the model''s.'
 skip: [the role of]

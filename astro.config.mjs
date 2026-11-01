@@ -27,6 +27,7 @@ export default defineConfig({
 				{ label: 'Part III: Building and judging agents', items: [{ autogenerate: { directory: 'part-3-building-and-judging' } }] },
 				{ label: 'Part IV: In practice', items: [{ autogenerate: { directory: 'part-4-in-practice' } }] },
 				{ label: 'Library', link: '/library/' },
+				{ label: 'Glossary', link: '/glossary/' },
 			],
 		}),
 		react(),
