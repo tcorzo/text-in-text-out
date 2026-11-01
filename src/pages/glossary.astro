@@ -10,6 +10,8 @@ const { terms, sites, order, published, titles } = await loadGlossary();
 const groups = groupByChapter(terms, sites, order, published);
 const base = import.meta.env.BASE_URL;
 const slug = (chapter: string) => chapter.replace('/', '--');
+// Terms are stored as they read in prose ("model"); the glossary lists them capitalized.
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 ---
 
 <StarlightPage
@@ -25,7 +27,7 @@ const slug = (chapter: string) => chapter.replace('/', '--');
 					{g.terms.map(({ term }) => (
 						<>
 							<dt id={term.id}>
-								<a href={withBase(base, `/${g.chapter}/#term-${term.id}`)}>{term.data.term}</a>
+								<a href={withBase(base, `/${g.chapter}/#term-${term.id}`)}>{capitalize(term.data.term)}</a>
 							</dt>
 							<dd>{term.data.definition}</dd>
 						</>
