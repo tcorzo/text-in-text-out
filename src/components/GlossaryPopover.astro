@@ -1,0 +1,123 @@
+---
+// One shared popover for the glossary mentions on a page (see src/lib/mentions.ts).
+// Hover or keyboard focus shows the definition, and a click follows the link to the glossary.
+// On touch screens, the first tap shows the definition and a button to the glossary.
+import { LinkButton } from '@astrojs/starlight/components';
+
+interface Props {
+	terms: Array<{ id: string; term: string; definition: string }>;
+}
+
+const byId = Object.fromEntries(Astro.props.terms.map((t) => [t.id, t]));
+const json = JSON.stringify(byId).replace(/</g, '\\u003c');
+---
+
+<div id="glossary-popover" class="not-content" role="tooltip" hidden>
+	<p></p>
+	<LinkButton href="#" variant="secondary" icon="right-arrow">Open in glossary</LinkButton>
+</div>
+<script type="application/json" id="glossary-terms" set:html={json} />
+
+<script>
+	const popover = document.getElementById('glossary-popover')!;
+	const text = popover.querySelector('p')!;
+	const button = popover.querySelector('a')!;
+	const terms: Record<string, { definition: string }> = JSON.parse(
+		document.getElementById('glossary-terms')!.textContent ?? '{}',
+	);
+	const canHover = () => matchMedia('(hover: hover)').matches;
+	let current: HTMLAnchorElement | null = null;
+	// The mention opened by a tap. Tapping also focuses the link, so focus alone can't count as the first tap.
+	let tapped: HTMLAnchorElement | null = null;
+
+	const mentionOf = (target: EventTarget | null) =>
+		target instanceof Element ? target.closest<HTMLAnchorElement>('a.glossary-mention') : null;
+
+	function show(mention: HTMLAnchorElement) {
+		const term = terms[mention.dataset.term ?? ''];
+		if (!term) return;
+		current?.removeAttribute('aria-describedby');
+		current = mention;
+		text.textContent = term.definition;
+		button.href = mention.href;
+		mention.setAttribute('aria-describedby', 'glossary-popover');
+		popover.hidden = false;
+		const rect = mention.getBoundingClientRect();
+		const left = Math.min(Math.max(8, rect.left), innerWidth - popover.offsetWidth - 8);
+		popover.style.left = `${left}px`;
+		popover.style.top = `${rect.bottom + 6}px`;
+	}
+
+	function hide() {
+		popover.hidden = true;
+		current?.removeAttribute('aria-describedby');
+		current = null;
+		tapped = null;
+	}
+
+	document.addEventListener('mouseover', (e) => {
+		const m = mentionOf(e.target);
+		if (m && canHover()) show(m);
+	});
+	document.addEventListener('mouseout', (e) => {
+		if (canHover() && mentionOf(e.target) && !mentionOf(e.relatedTarget)) hide();
+	});
+	document.addEventListener('focusin', (e) => {
+		const m = mentionOf(e.target);
+		if (m) show(m);
+	});
+	document.addEventListener('focusout', (e) => {
+		if (mentionOf(e.target) && !popover.contains(e.relatedTarget as Node | null)) hide();
+	});
+	document.addEventListener('click', (e) => {
+		const m = mentionOf(e.target);
+		if (m && !canHover() && tapped !== m) {
+			e.preventDefault();
+			show(m);
+			tapped = m;
+		} else if (!m && !popover.contains(e.target as Node)) {
+			hide();
+		}
+	});
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape') hide();
+	});
+	addEventListener('scroll', hide, { passive: true });
+</script>
+
+<style is:global>
+	/* ui-exception: Starlight has no tooltip or popover component, and no plugin provides one; expires: 2027-01-31 */
+	.glossary-mention {
+		color: inherit;
+		text-decoration: underline dotted;
+		text-underline-offset: 0.2em;
+	}
+	#glossary-popover {
+		position: fixed;
+		z-index: 100;
+		margin: 0;
+		max-width: min(22rem, calc(100vw - 1rem));
+		padding: 0.75rem 1rem;
+		background: var(--sl-color-bg-nav);
+		color: var(--sl-color-white);
+		border: 1px solid var(--sl-color-hairline-light);
+		border-radius: 0.5rem;
+		box-shadow: var(--sl-shadow-md);
+		font-size: var(--sl-text-sm);
+		line-height: 1.5;
+	}
+	#glossary-popover[hidden] {
+		display: none;
+	}
+	#glossary-popover p {
+		margin: 0;
+	}
+	#glossary-popover .sl-link-button {
+		margin-top: 0.75rem;
+	}
+	@media (hover: hover) {
+		#glossary-popover .sl-link-button {
+			display: none;
+		}
+	}
+</style>
